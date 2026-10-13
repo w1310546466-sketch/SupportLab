@@ -1,0 +1,16 @@
+{
+  "version": "holdout-seal-v1",
+  "sealed_at": "2026-10-06T11:55:50.233060+00:00",
+  "case_count": 40,
+  "family_count": 8,
+  "human_review": "pending",
+  "files": {
+    "evals/acceptance_baseline_v1.json": "baac6f90174f600b932fcd85971f6877ba78dbf3d0b7d4b8735e36b3fcbc8712",
+    "evals/holdout_v1.json": "f2b42b93ba801feed0fc5d8cb490587e740492a79b5a70cab51e018954b0202c",
+    "supportlab/acceptance.py": "efea05f6721a1291e9e6f7d8449b8494397f0368f893c6f45afc907352a99805",
+    "supportlab/acceptance_fixtures.py": "4071eb1027764bfff73044ebb16864ffd05a20549d988bc6aa8cb53e3c268aaf",
+    "evals/build_holdout_v1.py": "ea9266eaad02841f47ad2d13c516c67d1ff6ee749bbfed324048cb5fc7ab0f2e",
+    "tests/test_acceptance.py": "5993956319dcac0ad1004c86689404362c245553224071730a8324e40196de59"
+  },
+  "note": "Integrity manifest, not third-party notarization. Created before any locked case execution."
+}

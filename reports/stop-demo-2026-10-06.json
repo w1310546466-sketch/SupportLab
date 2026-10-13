@@ -1,0 +1,792 @@
+{
+  "created_at": "2026-10-05T21:06:34.417604+00:00",
+  "simulation": true,
+  "execution_mode": "scripted",
+  "split": "development",
+  "dataset_version": "stop-demo-v1",
+  "case_count": 5,
+  "expected_behavior_count": 5,
+  "model_api_calls": 0,
+  "human_review": "pending",
+  "cost": null,
+  "reproducibility": {
+    "stop_contract": "grounded-stop-v1",
+    "code_sha256": "e8f196e01b1e00e53a8600310881cdfcea845ae3c73b1a75cae84a36fb8495b2"
+  },
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab stop-demo",
+  "limitations": [
+    "构造开发场景；手写脚本与真实模型分别标记，不代表测试集成功率。",
+    "只检查现有有限停止理由；没有联系人工、创建工单或续接任务。"
+  ],
+  "cases": [
+    {
+      "id": "missing-id",
+      "title": "没有请求编号，应追问",
+      "setup": "baseline",
+      "request_id": null,
+      "prepared_fixture_sha256": "43ef80ece45461ec981485e0bc55c2afa8e1af1a949cd4722041ce9dcac7177c",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "stop-demo-script-v1",
+        "loop_version": "tool-loop-v4",
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "final_reply",
+        "answer": "需要补充信息：缺少要排查的请求编号。\n已查证（模拟历史资料及本次查询状态）：\n- 尚无针对当前请求的工具证据。\n仍缺少或需核实：\n- 请求记录：尚未针对当前请求取得查询结果。\n- 账号快照：尚未针对当前请求取得查询结果。\n- 文档检索：尚未针对当前请求取得查询结果。\n如何补证据：\n- 请提供这次失败的请求编号；无需提供 API 密钥。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 1,
+          "tool_calls": 0,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 0.124
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:33.546361+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:33.546361+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "final",
+            "elapsed_ms": 0.054,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-05T21:06:33.546361+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-stop-v1",
+            "passed": true,
+            "issues": [],
+            "proposed_reason": "missing_request_id",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:33.546361+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "needs_input",
+            "reason": "final_reply"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v1",
+          "passed": true,
+          "issues": [],
+          "proposed_reason": "missing_request_id",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "missing_request_id",
+          "outcome": "clarify",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "not_queried",
+              "evidence_id": null
+            },
+            {
+              "tool": "get_account_state",
+              "status": "not_queried",
+              "evidence_id": null
+            },
+            {
+              "tool": "search_docs",
+              "status": "not_queried",
+              "evidence_id": null
+            }
+          ],
+          "known": [
+            "尚无针对当前请求的工具证据。"
+          ],
+          "gaps": [
+            "请求记录：尚未针对当前请求取得查询结果。",
+            "账号快照：尚未针对当前请求取得查询结果。",
+            "文档检索：尚未针对当前请求取得查询结果。"
+          ],
+          "next_steps": [
+            "请提供这次失败的请求编号；无需提供 API 密钥。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "consistency_issue": null
+        }
+      }
+    },
+    {
+      "id": "missing-account",
+      "title": "请求查到了，账号快照没查到",
+      "setup": "missing_snapshot",
+      "request_id": "req_demo_018",
+      "prepared_fixture_sha256": "23bedbacb6fe1b209b57c6fa1807ee95ca441fa4b10e231c790fad34292eb5b3",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "stop-demo-script-v1",
+        "loop_version": "tool-loop-v4",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "需人工核实：缺少该次请求对应的账号快照。\n已查证（模拟历史资料及本次查询状态）：\n- [E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。\n- [E2] 账号快照已查询，但本次没有找到可用记录。\n仍缺少或需核实：\n- 账号快照：已查但未找到；不能把缺失值填成 0。\n- 文档检索：尚未针对当前请求取得查询结果。\n如何补证据：\n- 请由有权限的服务维护者补充同一请求、同一时刻和服务版本的账号用量记录。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 271.934
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:33.565048+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:33.565048+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.119,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T21:06:33.702458+00:00",
+            "execution_mode": "scripted",
+            "call_id": "lookup_0",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 137.03
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:33.702458+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.059,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T21:06:33.836913+00:00",
+            "execution_mode": "scripted",
+            "call_id": "lookup_1",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "account-states-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 134.415
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:33.836913+00:00",
+            "execution_mode": "scripted",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 0.092,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-05T21:06:33.836913+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-stop-v1",
+            "passed": true,
+            "issues": [],
+            "proposed_reason": "account_unavailable",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:33.836913+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v1",
+          "passed": true,
+          "issues": [],
+          "proposed_reason": "account_unavailable",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "account_unavailable",
+          "outcome": "handoff",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "ok",
+              "evidence_id": "E1"
+            },
+            {
+              "tool": "get_account_state",
+              "status": "not_found",
+              "evidence_id": "E2"
+            },
+            {
+              "tool": "search_docs",
+              "status": "not_queried",
+              "evidence_id": null
+            }
+          ],
+          "known": [
+            "[E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。",
+            "[E2] 账号快照已查询，但本次没有找到可用记录。"
+          ],
+          "gaps": [
+            "账号快照：已查但未找到；不能把缺失值填成 0。",
+            "文档检索：尚未针对当前请求取得查询结果。"
+          ],
+          "next_steps": [
+            "请由有权限的服务维护者补充同一请求、同一时刻和服务版本的账号用量记录。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "consistency_issue": null
+        }
+      }
+    },
+    {
+      "id": "conflicting-records",
+      "title": "错误码称配额耗尽，但快照为 999/1000",
+      "setup": "quota_conflict",
+      "request_id": "req_demo_018",
+      "prepared_fixture_sha256": "5dbc58036ca0984c43df53d83e5b72c51190bf865be19cb4c43b2b0ad50cb020",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "stop-demo-script-v1",
+        "loop_version": "tool-loop-v4",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "需人工核实：现有记录未通过一致性检查。\n已查证（模拟历史资料及本次查询状态）：\n- [E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。\n- [E2] 快照时间 2026-09-27T02:01:00Z，版本 demo-api-v1；60 秒窗口请求数/上限 2/60，月度已用量/上限 999/1000。\n仍缺少或需核实：\n- 文档检索：尚未针对当前请求取得查询结果。\n- 请求与快照未通过一致性检查，现有证据不能支持确定诊断。\n如何补证据：\n- 请由服务维护者核对请求错误码与同一时刻的账号快照，确认记录一致后再诊断；不要猜哪份记录正确。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 268.914
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:33.857563+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:33.857563+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.048,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T21:06:33.990582+00:00",
+            "execution_mode": "scripted",
+            "call_id": "lookup_0",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 132.89
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:33.990582+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.055,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T21:06:34.126495+00:00",
+            "execution_mode": "scripted",
+            "call_id": "lookup_1",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                999,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 135.63
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:34.126495+00:00",
+            "execution_mode": "scripted",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 0.068,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-05T21:06:34.126495+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-stop-v1",
+            "passed": true,
+            "issues": [],
+            "proposed_reason": "evidence_conflict",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:34.126495+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v1",
+          "passed": true,
+          "issues": [],
+          "proposed_reason": "evidence_conflict",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "evidence_conflict",
+          "outcome": "handoff",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "ok",
+              "evidence_id": "E1"
+            },
+            {
+              "tool": "get_account_state",
+              "status": "ok",
+              "evidence_id": "E2"
+            },
+            {
+              "tool": "search_docs",
+              "status": "not_queried",
+              "evidence_id": null
+            }
+          ],
+          "known": [
+            "[E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。",
+            "[E2] 快照时间 2026-09-27T02:01:00Z，版本 demo-api-v1；60 秒窗口请求数/上限 2/60，月度已用量/上限 999/1000。"
+          ],
+          "gaps": [
+            "文档检索：尚未针对当前请求取得查询结果。",
+            "请求与快照未通过一致性检查，现有证据不能支持确定诊断。"
+          ],
+          "next_steps": [
+            "请由服务维护者核对请求错误码与同一时刻的账号快照，确认记录一致后再诊断；不要猜哪份记录正确。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "consistency_issue": "cause_not_supported"
+        }
+      }
+    },
+    {
+      "id": "tool-failure",
+      "title": "数据库不可用，不能当成业务根因",
+      "setup": "database_missing",
+      "request_id": "req_demo_018",
+      "prepared_fixture_sha256": "875921ed0068eba079fa465c22bf86a7c4dcf6209c0baa0afccc466c8c23beab",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "stop-demo-script-v1",
+        "loop_version": "tool-loop-v4",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "需人工核实：工具未能正常完成查询。\n已查证（模拟历史资料及本次查询状态）：\n- [E1] 请求记录本次未成功，工具状态为 storage_error。\n仍缺少或需核实：\n- 请求记录：查询失败，内容未知。\n- 账号快照：尚未针对当前请求取得查询结果。\n- 文档检索：尚未针对当前请求取得查询结果。\n如何补证据：\n- 请检查失败工具的参数、数据源或执行状态，修复后重新排查；查询失败不能证明业务故障原因。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 134.125
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:34.132800+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:34.132800+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.051,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T21:06:34.266904+00:00",
+            "execution_mode": "scripted",
+            "call_id": "lookup_0",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "storage_error",
+              "dataset_version": "requests-v1"
+            },
+            "error": "storage_error",
+            "elapsed_ms": 133.917
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:34.266904+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.049,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-05T21:06:34.266904+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-stop-v1",
+            "passed": true,
+            "issues": [],
+            "proposed_reason": "tool_failure",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:34.266904+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v1",
+          "passed": true,
+          "issues": [],
+          "proposed_reason": "tool_failure",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "tool_failure",
+          "outcome": "handoff",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "storage_error",
+              "evidence_id": "E1"
+            },
+            {
+              "tool": "get_account_state",
+              "status": "not_queried",
+              "evidence_id": null
+            },
+            {
+              "tool": "search_docs",
+              "status": "not_queried",
+              "evidence_id": null
+            }
+          ],
+          "known": [
+            "[E1] 请求记录本次未成功，工具状态为 storage_error。"
+          ],
+          "gaps": [
+            "请求记录：查询失败，内容未知。",
+            "账号快照：尚未针对当前请求取得查询结果。",
+            "文档检索：尚未针对当前请求取得查询结果。"
+          ],
+          "next_steps": [
+            "请检查失败工具的参数、数据源或执行状态，修复后重新排查；查询失败不能证明业务故障原因。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "consistency_issue": null
+        }
+      }
+    },
+    {
+      "id": "premature-stop",
+      "title": "尚未查账号，却声称快照找不到，应拦下",
+      "setup": "baseline",
+      "request_id": "req_demo_018",
+      "prepared_fixture_sha256": "43ef80ece45461ec981485e0bc55c2afa8e1af1a949cd4722041ce9dcac7177c",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "stop-demo-script-v1",
+        "loop_version": "tool-loop-v4",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "unsupported_resolution",
+        "answer": "需人工核实：本轮已停止，尚未形成通过检查的诊断。\n已查证（模拟历史资料及本次查询状态）：\n- [E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。\n仍缺少或需核实：\n- 账号快照：尚未针对当前请求取得查询结果。\n- 文档检索：尚未针对当前请求取得查询结果。\n如何补证据：\n- 请检查模型输出与工具证据是否对应，再重新排查；本次未发布未经核实的结论。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 132.217
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:34.283660+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:34.283660+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.049,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T21:06:34.415596+00:00",
+            "execution_mode": "scripted",
+            "call_id": "lookup_0",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 131.995
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T21:06:34.415596+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.052,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-05T21:06:34.415596+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-stop-v1",
+            "passed": false,
+            "issues": [
+              "stop_reason_not_supported"
+            ],
+            "proposed_reason": "account_unavailable",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T21:06:34.415596+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "unsupported_resolution"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v1",
+          "passed": false,
+          "issues": [
+            "stop_reason_not_supported"
+          ],
+          "proposed_reason": "account_unavailable",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "unsupported_resolution",
+          "outcome": "handoff",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "ok",
+              "evidence_id": "E1"
+            },
+            {
+              "tool": "get_account_state",
+              "status": "not_queried",
+              "evidence_id": null
+            },
+            {
+              "tool": "search_docs",
+              "status": "not_queried",
+              "evidence_id": null
+            }
+          ],
+          "known": [
+            "[E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。"
+          ],
+          "gaps": [
+            "账号快照：尚未针对当前请求取得查询结果。",
+            "文档检索：尚未针对当前请求取得查询结果。"
+          ],
+          "next_steps": [
+            "请检查模型输出与工具证据是否对应，再重新排查；本次未发布未经核实的结论。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "consistency_issue": null
+        }
+      }
+    }
+  ]
+}

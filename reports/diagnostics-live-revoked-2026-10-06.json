@@ -1,0 +1,452 @@
+{
+  "created_at": "2026-10-06T11:20:14.578575+00:00",
+  "simulation": true,
+  "split": "development",
+  "dataset_version": "diagnostic-dev-v1",
+  "case_count": 1,
+  "run_count": 1,
+  "passed_runs": 1,
+  "human_review": "pending",
+  "execution_mode": "live",
+  "model": "deepseek-flash",
+  "model_api_calls": 4,
+  "model_api_cap": 4,
+  "token_usage": {
+    "input_tokens": 9647,
+    "output_tokens": 351,
+    "total_tokens": 9998
+  },
+  "usage_complete": true,
+  "cost": null,
+  "reproducibility": {
+    "code_sha256": "a722d1af3211d408a4d7ce1578ce00c7e727b489daabbd0c9e7623aed9684345",
+    "dataset_sha256": "2e8d58f8e7d2ab7dc12095798c2d8b035c1da7445c4521ef8d3d183198457043",
+    "rule_sha256": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+    "contract": "grounded-diagnostics-v1",
+    "adapter_version": "deepseek-chat-v4.3",
+    "prompts": {
+      "workflow": "e6a5a8f1914481630d6ff4b3663342b41eab2d4917613b47aac0af42d523e66d",
+      "agent": "d51b63cb072391d39726a680f2107e95cd21eb5a97b0f2e544dfe58370129268"
+    }
+  },
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab eval-diagnostics --case revoked --live",
+  "limitations": [
+    "构造开发案例已参与实现与调优，不是独立保留测试。",
+    "离线回复由规则构造，只验证执行、约束与报告；不证明真实模型质量。",
+    "实际模型验证每次仅一个案例一次运行；缺少广泛评估、重复稳定性与独立人工复核。"
+  ],
+  "rows": [
+    {
+      "id": "revoked",
+      "family": "revoked_credential",
+      "configuration": "agent",
+      "source_sha256": "6f35cb0f543f83b9b65c1dcd67f3ed1b9d9ecd02716e0854a0a5142187fa1ad3",
+      "grade": {
+        "passed": true,
+        "checks": {
+          "outcome": true,
+          "structured_final": true,
+          "tool_budget": true,
+          "api_budget": true,
+          "evidence_check": true,
+          "cause": true,
+          "sources_unchanged": true
+        }
+      },
+      "result": {
+        "simulation": true,
+        "execution_mode": "live",
+        "model_called": true,
+        "control_mode": "dynamic_agent",
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "loop_version": "tool-loop-v4.3",
+        "status": "completed",
+        "outcome": "diagnosis",
+        "reason": "final_reply",
+        "answer": "已查证（模拟历史记录）：请求 req_auth_revoked，时间 2026-09-27T03:00:00Z，返回 401 / CREDENTIAL_REVOKED。\n凭据状态：revoked（已撤销）。\n诊断：该次请求的凭据已被撤销。依据：demo-diagnostics-v1@b13a16f7fe34:L11-L11。\n待核实：请有权限的维护者核实当前凭据是否仍被撤销，以及是否需要重新签发；不要在对话里提供密钥。\n这些历史记录不能证明当前状态或服务已恢复。",
+        "citations": [
+          "demo-diagnostics-v1@b13a16f7fe34:L11-L11"
+        ],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 4,
+          "model_responses_received": 4,
+          "token_usage": {
+            "input_tokens": 9647,
+            "output_tokens": 351,
+            "total_tokens": 9998
+          },
+          "usage_complete": true,
+          "format_recovery": {
+            "version": "final-format-v1",
+            "status": "parsed",
+            "correction_requests": 1,
+            "diagnostics": [
+              {
+                "api_call": 3,
+                "content_chars": 408,
+                "empty": false,
+                "starts_with_code_fence": false,
+                "line": 1,
+                "column": 1,
+                "category": "json_syntax"
+              }
+            ],
+            "stop_reason": null
+          },
+          "model_limits": {
+            "max_api_calls": 4,
+            "max_output_tokens": 768,
+            "max_input_bytes": 24000,
+            "request_timeout_seconds": 25.0,
+            "total_seconds": 110.0,
+            "sdk_automatic_retries": 0,
+            "max_format_corrections": 1
+          },
+          "elapsed_ms": 10350.695
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T11:20:04.225270+00:00",
+            "execution_mode": "live",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_live"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:06.724892+00:00",
+            "execution_mode": "live",
+            "turn": 1,
+            "action": "tool_call",
+            "decision_owner": "model",
+            "elapsed_ms": 2499.708,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1710,
+              "output_tokens": 94,
+              "total_tokens": 1804
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T11:20:06.856180+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_N0yXDjXOlRxKAX4jlWQy6719",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_auth_revoked"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "CREDENTIAL_REVOKED"
+            },
+            "error": null,
+            "elapsed_ms": 131.127
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:06.856180+00:00",
+            "execution_mode": "live",
+            "turn": 2,
+            "action": "tool_call",
+            "decision_owner": "model",
+            "elapsed_ms": 0.079,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1710,
+              "output_tokens": 94,
+              "total_tokens": 1804
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T11:20:06.993086+00:00",
+            "execution_mode": "live",
+            "call_id": "call_01_6Mq7HqZdavjhY8TM2kbT7594",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_auth_revoked"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "diagnostic-snapshots-v1",
+              "captured_at": "2026-09-27T03:00:00Z",
+              "diagnostic_fields": [
+                "credential_status"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 136.856
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:09.517313+00:00",
+            "execution_mode": "live",
+            "turn": 3,
+            "action": "tool_call",
+            "decision_owner": "model",
+            "elapsed_ms": 2524.201,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 2,
+            "model_responses_received": 2,
+            "token_usage": {
+              "input_tokens": 3733,
+              "output_tokens": 175,
+              "total_tokens": 3908
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T11:20:09.659563+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_vFZUtVqplcbEl8iTSC1f2930",
+            "evidence_id": "E3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 27,
+              "service_version": "demo-api-v1",
+              "top_k": 3
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-diagnostics-v1@b13a16f7fe34:L11-L11",
+                "demo-diagnostics-v1@b13a16f7fe34:L12-L12",
+                "demo-diagnostics-v1@b13a16f7fe34:L17-L17"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 141.851
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:14.575522+00:00",
+            "execution_mode": "live",
+            "turn": 4,
+            "action": "final",
+            "decision_owner": "model",
+            "elapsed_ms": 4916.337,
+            "proposed_tool": null,
+            "model_api_calls": 4,
+            "model_responses_received": 4,
+            "token_usage": {
+              "input_tokens": 9647,
+              "output_tokens": 351,
+              "total_tokens": 9998
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "parsed",
+              "correction_requests": 1,
+              "diagnostics": [
+                {
+                  "api_call": 3,
+                  "content_chars": 408,
+                  "empty": false,
+                  "starts_with_code_fence": false,
+                  "line": 1,
+                  "column": 1,
+                  "category": "json_syntax"
+                }
+              ],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "answer_check",
+            "timestamp": "2026-10-06T11:20:14.576041+00:00",
+            "execution_mode": "live",
+            "contract": "grounded-diagnostics-v1",
+            "passed": true,
+            "issues": [],
+            "scope": "simulated_auth_permission_upstream",
+            "human_review": "pending",
+            "references": {
+              "request_evidence_id": "E1",
+              "account_evidence_id": "E2"
+            },
+            "available_evidence": [
+              {
+                "id": "E1",
+                "tool": "get_request_record",
+                "status": "ok"
+              },
+              {
+                "id": "E2",
+                "tool": "get_account_state",
+                "status": "ok"
+              },
+              {
+                "id": "E3",
+                "tool": "search_docs",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T11:20:14.576041+00:00",
+            "execution_mode": "live",
+            "previous": "running",
+            "current": "completed",
+            "reason": "final_reply"
+          }
+        ],
+        "answer_check": {
+          "contract": "grounded-diagnostics-v1",
+          "passed": true,
+          "issues": [],
+          "scope": "simulated_auth_permission_upstream",
+          "human_review": "pending",
+          "references": {
+            "request_evidence_id": "E1",
+            "account_evidence_id": "E2"
+          },
+          "available_evidence": [
+            {
+              "id": "E1",
+              "tool": "get_request_record",
+              "status": "ok"
+            },
+            {
+              "id": "E2",
+              "tool": "get_account_state",
+              "status": "ok"
+            },
+            {
+              "id": "E3",
+              "tool": "search_docs",
+              "status": "ok"
+            }
+          ]
+        },
+        "structured_answer": {
+          "scope": "historical_simulation",
+          "facts": {
+            "request": {
+              "evidence_id": "E1",
+              "values": {
+                "request_id": "req_auth_revoked",
+                "service_version": "demo-api-v1",
+                "occurred_at": "2026-09-27T03:00:00Z",
+                "http_status": 401,
+                "error_code": "CREDENTIAL_REVOKED",
+                "retry_after_seconds": null
+              }
+            },
+            "account": {
+              "evidence_id": "E2",
+              "values": {
+                "request_id": "req_auth_revoked",
+                "service_version": "demo-api-v1",
+                "captured_at": "2026-09-27T03:00:00Z",
+                "diagnostic_facts": {
+                  "credential_status": "revoked"
+                }
+              }
+            }
+          },
+          "diagnosis": {
+            "cause": "credential_revoked",
+            "label": "该次请求的凭据已被撤销",
+            "rule_citation": "demo-diagnostics-v1@b13a16f7fe34:L11-L11"
+          },
+          "evidence_summary": "凭据状态：revoked（已撤销）。",
+          "follow_up": [
+            {
+              "code": "check_current_status",
+              "status": "needs_verification",
+              "text": "若要判断现在能否继续请求，需另行取得当前状态；现有工具只提供历史快照。"
+            },
+            {
+              "code": "verify_with_maintainer",
+              "status": "needs_verification",
+              "text": "请有权限的维护者核实当前凭据是否仍被撤销，以及是否需要重新签发；不要在对话里提供密钥。"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

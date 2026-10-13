@@ -1,0 +1,239 @@
+{
+  "simulation": true,
+  "execution_mode": "live",
+  "model_called": true,
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "loop_version": "tool-loop-v2",
+  "status": "completed",
+  "outcome": "diagnosis",
+  "reason": "final_reply",
+  "answer": "请求 req_demo_018 的诊断结论：月度配额耗尽（MONTHLY_QUOTA_EXHAUSTED），而非频率限制。\n\n事实依据：\n- 请求记录：服务版本 demo-api-v1，发生时间 2026-09-27T02:01:00Z，HTTP 状态 429，错误码 MONTHLY_QUOTA_EXHAUSTED，retry_after_seconds 为空。\n- 账号快照（同一时间 2026-09-27T02:01:00Z）：月度配额上限 1000，已用量 1000，即配额已用尽；配额重置时间 2026-10-01T00:00:00Z。\n- 同快照的频率维度：60 秒窗口上限 60，窗口内请求数仅 2，远未触达频率限制，因此可排除 RATE_LIMIT_EXCEEDED。\n- 文档对 429 的两种含义作了区分：MONTHLY_QUOTA_EXHAUSTED 表示月度用量配额耗尽，需核查当前月度配额、已用量及重置时间；RATE_LIMIT_EXCEEDED 才表示触发频率限制。本次错误码与配额已用满的事实一致。\n- 文档中另一条构造记录也显示：同一请求在窗口 2/60、月度 1000/1000 时，对应错误码为 MONTHLY_QUOTA_EXHAUSTED，与本次快照相互印证。\n\n建议：\n1. 不要按频率限制处理（重试无益），该请求受月度配额约束，需等待配额重置（2026-10-01T00:00:00Z）或提升/申请额外月度配额后再调用。\n2. 如需继续排查，可核对 2026-09-27 前后是否有批量调用导致用量在当月提前耗尽，并评估是否需要扩容配额。\n3. 注意：retry_after_seconds 为空，与「配额耗尽需等到重置时间」一致，不应依赖短期重试。\n\n说明：以上均为模拟数据集的历史演示数据，非实时账号状态。",
+  "citations": [
+    "demo-errors-v1@d849e3e33fcd:L11-L11",
+    "demo-errors-v1@d849e3e33fcd:L10-L10",
+    "demo-account-state-v1@c58dcdf22b91:L41-L41"
+  ],
+  "usage": {
+    "decision_turns": 4,
+    "tool_calls": 3,
+    "model_api_calls": 3,
+    "model_responses_received": 3,
+    "token_usage": {
+      "input_tokens": 4248,
+      "output_tokens": 727,
+      "total_tokens": 4975
+    },
+    "usage_complete": true,
+    "model_limits": {
+      "max_api_calls": 4,
+      "max_output_tokens": 768,
+      "max_input_bytes": 24000,
+      "request_timeout_seconds": 25.0,
+      "total_seconds": 110.0,
+      "automatic_retries": 0
+    },
+    "elapsed_ms": 9596.259
+  },
+  "limits": {
+    "max_tool_calls": 4,
+    "max_turns": 8,
+    "tool_timeout_seconds": 2.0
+  },
+  "trace": [
+    {
+      "event": "state",
+      "timestamp": "2026-10-04T17:50:16.039645+00:00",
+      "execution_mode": "live",
+      "previous": "pending",
+      "current": "running",
+      "reason": "start_live"
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-04T17:50:18.731593+00:00",
+      "execution_mode": "live",
+      "turn": 1,
+      "action": "tool_call",
+      "elapsed_ms": 2691.106,
+      "proposed_tool": "get_request_record",
+      "model_api_calls": 1,
+      "model_responses_received": 1,
+      "token_usage": {
+        "input_tokens": 892,
+        "output_tokens": 96,
+        "total_tokens": 988
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "tool",
+      "timestamp": "2026-10-04T17:50:18.859623+00:00",
+      "execution_mode": "live",
+      "call_id": "call_00_ZyZxcpEIVfLbAyqTW5xX4396",
+      "attempt": 1,
+      "tool": "get_request_record",
+      "validated_arguments": {
+        "request_id": "req_demo_018"
+      },
+      "result_summary": {
+        "status": "ok",
+        "dataset_version": "requests-v1",
+        "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+      },
+      "error": null,
+      "elapsed_ms": 128.5
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-04T17:50:18.859623+00:00",
+      "execution_mode": "live",
+      "turn": 2,
+      "action": "tool_call",
+      "elapsed_ms": 0.074,
+      "proposed_tool": "get_account_state",
+      "model_api_calls": 1,
+      "model_responses_received": 1,
+      "token_usage": {
+        "input_tokens": 892,
+        "output_tokens": 96,
+        "total_tokens": 988
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "tool",
+      "timestamp": "2026-10-04T17:50:18.985337+00:00",
+      "execution_mode": "live",
+      "call_id": "call_01_ViFlKaplXQDbXtpL53B23316",
+      "attempt": 2,
+      "tool": "get_account_state",
+      "validated_arguments": {
+        "request_id": "req_demo_018"
+      },
+      "result_summary": {
+        "status": "ok",
+        "dataset_version": "account-states-v1",
+        "captured_at": "2026-09-27T02:01:00Z",
+        "rate": [
+          2,
+          60
+        ],
+        "quota": [
+          1000,
+          1000
+        ]
+      },
+      "error": null,
+      "elapsed_ms": 124.938
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-04T17:50:21.305381+00:00",
+      "execution_mode": "live",
+      "turn": 3,
+      "action": "tool_call",
+      "elapsed_ms": 2320.282,
+      "proposed_tool": "search_docs",
+      "model_api_calls": 2,
+      "model_responses_received": 2,
+      "token_usage": {
+        "input_tokens": 2137,
+        "output_tokens": 180,
+        "total_tokens": 2317
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "tool",
+      "timestamp": "2026-10-04T17:50:21.434254+00:00",
+      "execution_mode": "live",
+      "call_id": "call_00_cDPn7i0BHhAF6hG6LfCU9106",
+      "attempt": 3,
+      "tool": "search_docs",
+      "validated_arguments": {
+        "query_chars": 41,
+        "service_version": "demo-api-v1",
+        "top_k": 3
+      },
+      "result_summary": {
+        "status": "ok",
+        "dataset_version": "docs-v1",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L11-L11",
+          "demo-account-state-v1@c58dcdf22b91:L41-L41",
+          "demo-errors-v1@d849e3e33fcd:L10-L10"
+        ]
+      },
+      "error": null,
+      "elapsed_ms": 129.141
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-04T17:50:25.636224+00:00",
+      "execution_mode": "live",
+      "turn": 4,
+      "action": "final",
+      "elapsed_ms": 4201.863,
+      "proposed_tool": null,
+      "model_api_calls": 3,
+      "model_responses_received": 3,
+      "token_usage": {
+        "input_tokens": 4248,
+        "output_tokens": 727,
+        "total_tokens": 4975
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "state",
+      "timestamp": "2026-10-04T17:50:25.636224+00:00",
+      "execution_mode": "live",
+      "previous": "running",
+      "current": "completed",
+      "reason": "final_reply"
+    }
+  ],
+  "reproducibility": {
+    "adapter_version": "deepseek-chat-v1",
+    "sdk_version": "3.24.0",
+    "code_sha256": "3d20ff43a18f176c06b37a7929bf79c0aeeea7067c1932bbe940d9baf7c5eaf6",
+    "source_sha256": "a5033628bc35b1b38905cfcd2e3544df01b375764db7777419d4f8e7cad07966",
+    "prompt_sha256": "d94ab5e860c473b863b82ce04ee504757fdc18936c4faaabf8d644c955712633",
+    "case_id": "req_demo_018",
+    "semantic_review": "pending",
+    "cost": null
+  }
+}

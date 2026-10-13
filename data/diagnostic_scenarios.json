@@ -1,0 +1,11 @@
+{
+  "simulation": true,
+  "dataset_version": "diagnostic-scenarios-v1",
+  "records": [
+    {"account_id":"acc_demo","request_id":"req_auth_revoked","service_version":"demo-api-v1","occurred_at":"2026-09-27T03:00:00Z","http_status":401,"error_code":"CREDENTIAL_REVOKED","retry_after_seconds":null,"snapshot":{"credential_status":"revoked"}},
+    {"account_id":"acc_demo","request_id":"req_auth_expired","service_version":"demo-api-v1","occurred_at":"2026-09-27T03:01:00Z","http_status":401,"error_code":"TOKEN_EXPIRED","retry_after_seconds":null,"snapshot":{"credential_status":"expired","credential_expires_at":"2026-09-27T03:00:00Z"}},
+    {"account_id":"acc_demo","request_id":"req_permission_missing","service_version":"demo-api-v1","occurred_at":"2026-09-27T03:02:00Z","http_status":403,"error_code":"SCOPE_MISSING","retry_after_seconds":null,"snapshot":{"credential_status":"active","required_scope":"inference:write","granted_scopes":["usage:read"]}},
+    {"account_id":"acc_demo","request_id":"req_upstream_incident","service_version":"demo-api-v1","occurred_at":"2026-09-27T03:03:00Z","http_status":503,"error_code":"UPSTREAM_INCIDENT_CONFIRMED","retry_after_seconds":null,"snapshot":{"upstream_service":"inference-east","incident_service":"inference-east","incident_id":"inc_demo_001","incident_started_at":"2026-09-27T03:00:00Z","incident_ended_at":"2026-09-27T03:10:00Z","execution_state":"unknown"}},
+    {"account_id":"acc_demo","request_id":"req_timeout_unknown","service_version":"demo-api-v1","occurred_at":"2026-09-27T03:04:00Z","http_status":504,"error_code":"UPSTREAM_TIMEOUT_UNKNOWN","retry_after_seconds":null,"snapshot":{"execution_state":"unknown","idempotency_supported":null}}
+  ]
+}

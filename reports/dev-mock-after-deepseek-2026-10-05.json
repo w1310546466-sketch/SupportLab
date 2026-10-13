@@ -1,0 +1,3385 @@
+{
+  "created_at": "2026-10-04T17:51:02.414435+00:00",
+  "simulation": true,
+  "split": "development",
+  "dataset_version": "agent-dev-v1",
+  "dataset_sha256": "fa7bc624d49393dbb70f4066f18018a9907ec81c99e650012f70e47287312ea2",
+  "code_sha256": "3d20ff43a18f176c06b37a7929bf79c0aeeea7067c1932bbe940d9baf7c5eaf6",
+  "source_sha256": "a5033628bc35b1b38905cfcd2e3544df01b375764db7777419d4f8e7cad07966",
+  "prompt_sha256": "5ab323662fd61c5cae49d73dc8667614a6a9fc41dbc001b9b7a9a3d87597840c",
+  "loop_version": "tool-loop-v2",
+  "retrieval_version": "keyword-v1",
+  "grader_version": "mock-rules-v1",
+  "model": "demo-rule-mock-v1",
+  "model_api_calls": 0,
+  "token_usage": null,
+  "cost": null,
+  "python_version": "3.12.3",
+  "sqlite_version": "3.45.1",
+  "human_review_status": "pending",
+  "task_success_rate": null,
+  "automated_pass_count": 20,
+  "case_count": 20,
+  "tool_calls_total": 36,
+  "elapsed_ms_total": 4568.294,
+  "failed_case_ids": [],
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab eval-mock",
+  "limitations": [
+    "构造开发集，已参与开发；不是保留测试集或真实模型评测。",
+    "当前精确路径和答案词面规则适用于 mock；接入真实模型后需审核等价行为与语义。",
+    "AI 核对不能代替用户人工核验；引用来源存在不等于支持结论。",
+    "工具时限沿用 2 秒；运行耗时包含本地进程开销，不代表模型延迟。"
+  ],
+  "cases": [
+    {
+      "case_id": "rate-ok",
+      "family": "rate-diagnosis",
+      "title": "频率超限且配额未耗尽",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "diagnosis",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "cause": "频率限制",
+        "forbidden_cause": "月度配额耗尽",
+        "error_code": "RATE_LIMIT_EXCEEDED",
+        "evidence": {
+          "requests_in_window": 61,
+          "rate_limit_per_window": 60,
+          "monthly_quota_used": 999,
+          "monthly_quota_limit": 1000
+        },
+        "rule_line": 10
+      },
+      "rationale": "017 的错误码、61/60 的窗口计数和规则第 10 行一致；月度用量仍为 999/1000。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "pending",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "completed",
+        "outcome": "diagnosis",
+        "reason": "final_reply",
+        "answer": "模拟诊断：频率限制。请求 req_demo_017 的错误码为 RATE_LIMIT_EXCEEDED；在 2026-09-27T02:00:00Z 的对应快照中，60 秒窗口请求数/上限为 61/60，月度已用量/上限为 999/1000。结论由本地规则模板生成，未调用真实模型。",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L10-L10"
+        ],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 395.565
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:57.555557+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:57.555557+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.108,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:57.690164+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_017"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "RATE_LIMIT_EXCEEDED"
+            },
+            "error": null,
+            "elapsed_ms": 134.657
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:57.690164+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.134,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:57.819366+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_017"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:00:00Z",
+              "rate": [
+                61,
+                60
+              ],
+              "quota": [
+                999,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 129.21
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:57.819366+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.074,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:57.950834+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 19,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L10-L10"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 130.994
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:57.950834+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.095,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:57.950834+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "completed",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_017"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_017",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:00:00Z",
+              "http_status": 429,
+              "error_code": "RATE_LIMIT_EXCEEDED",
+              "retry_after_seconds": 30
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_017"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_017",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:00:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 61,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 999,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "RATE_LIMIT_EXCEEDED",
+            "service_version": "demo-api-v1",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "ok",
+            "matches": [
+              {
+                "line_start": 10,
+                "line_end": 10,
+                "excerpt": "| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |",
+                "section": "虚构服务 Demo API v1：最小排错资料",
+                "table_header": {
+                  "line": 8,
+                  "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+                },
+                "doc_id": "demo-errors-v1",
+                "service_version": "demo-api-v1",
+                "source": "docs/demo-api-v1.md",
+                "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+                "citation": "demo-errors-v1@d849e3e33fcd:L10-L10",
+                "score": 10,
+                "matched_terms": [
+                  "rate_limit_exceeded"
+                ]
+              }
+            ],
+            "message": "返回相关原文，是否支持结论仍需核对。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "quota-ok",
+      "family": "quota-diagnosis",
+      "title": "月度配额耗尽且频率未超限",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "diagnosis",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "cause": "月度配额耗尽",
+        "forbidden_cause": "频率限制",
+        "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+        "evidence": {
+          "requests_in_window": 2,
+          "rate_limit_per_window": 60,
+          "monthly_quota_used": 1000,
+          "monthly_quota_limit": 1000
+        },
+        "rule_line": 11
+      },
+      "rationale": "018 的错误码、1000/1000 月度用量和规则第 11 行一致，窗口只有 2/60。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "pending",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "completed",
+        "outcome": "diagnosis",
+        "reason": "final_reply",
+        "answer": "模拟诊断：月度配额耗尽。请求 req_demo_018 的错误码为 MONTHLY_QUOTA_EXHAUSTED；在 2026-09-27T02:01:00Z 的对应快照中，60 秒窗口请求数/上限为 2/60，月度已用量/上限为 1000/1000。结论由本地规则模板生成，未调用真实模型。",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L11-L11"
+        ],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 403.406
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:57.964821+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:57.964821+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.049,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.092458+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 127.652
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.092458+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.054,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.220532+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 128.16
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.220532+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.113,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.367890+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 147.006
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.368394+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.098,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.368394+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "completed",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 2,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 1000,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "MONTHLY_QUOTA_EXHAUSTED",
+            "service_version": "demo-api-v1",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "ok",
+            "matches": [
+              {
+                "line_start": 11,
+                "line_end": 11,
+                "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+                "section": "虚构服务 Demo API v1：最小排错资料",
+                "table_header": {
+                  "line": 8,
+                  "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+                },
+                "doc_id": "demo-errors-v1",
+                "service_version": "demo-api-v1",
+                "source": "docs/demo-api-v1.md",
+                "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+                "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+                "score": 10,
+                "matched_terms": [
+                  "monthly_quota_exhausted"
+                ]
+              }
+            ],
+            "message": "返回相关原文，是否支持结论仍需核对。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "missing-id",
+      "family": "input-clarification",
+      "title": "未提供请求编号",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "clarify",
+        "tool_statuses": [],
+        "answer_contains": "请求编号"
+      },
+      "rationale": "无法确定待查请求，应先追问，不执行无目标查询。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "final_reply",
+        "answer": "请提供需要排查的请求编号，例如 req_demo_018。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 1,
+          "tool_calls": 0,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 0.084
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.382032+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.382032+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "final",
+            "elapsed_ms": 0.053,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.382032+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "needs_input",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": []
+    },
+    {
+      "case_id": "invalid-id",
+      "family": "input-clarification",
+      "title": "编号格式无效",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "clarify",
+        "tool_statuses": [
+          "invalid_arguments"
+        ],
+        "answer_contains": "核对请求编号"
+      },
+      "rationale": "工具契约拒绝无效编号，要求用户核对；不能凭空纠正为任意有效编号。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "final_reply",
+        "answer": "当前账号范围内无法取得该请求，请核对请求编号。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 0.156
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.394418+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.394418+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.053,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.394418+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": null,
+            "result_summary": {
+              "status": "invalid_arguments",
+              "dataset_version": null
+            },
+            "error": "invalid_arguments",
+            "elapsed_ms": 0.009
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.394418+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.041,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.394418+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "needs_input",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": null,
+          "result": {
+            "simulation": true,
+            "status": "invalid_arguments",
+            "message": "工具名或参数不符合应用白名单与契约。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "unknown-id",
+      "family": "scope-lookup",
+      "title": "当前范围查不到请求",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "clarify",
+        "tool_statuses": [
+          "not_found"
+        ],
+        "answer_contains": "核对请求编号"
+      },
+      "rationale": "没有可用请求记录，应追问；查不到不等于没有故障。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "final_reply",
+        "answer": "当前账号范围内无法取得该请求，请核对请求编号。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 127.516
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.407082+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.407588+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.052,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.534481+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_missing_001"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "requests-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 127.323
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.534983+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.057,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.534983+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "needs_input",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_missing_001"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "not_found",
+            "message": "当前账号范围内未找到该请求，请核对请求编号。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "other-account",
+      "family": "scope-lookup",
+      "title": "编号属于其他模拟账号",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "clarify",
+        "tool_statuses": [
+          "not_found"
+        ],
+        "answer_contains": "核对请求编号"
+      },
+      "rationale": "可信范围是 acc_demo，行为应与未知编号相同，不披露其他账号是否有记录。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "final_reply",
+        "answer": "当前账号范围内无法取得该请求，请核对请求编号。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 144.016
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.549252+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.550260+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.06,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.693971+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_other_001"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "requests-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 143.822
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.693971+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.052,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.693971+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "needs_input",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_other_001"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "not_found",
+            "message": "当前账号范围内未找到该请求，请核对请求编号。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "missing-snapshot",
+      "family": "snapshot-evidence",
+      "title": "请求存在但账号快照缺失",
+      "setup": "missing_snapshot",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "not_found"
+        ],
+        "answer_contains": "快照"
+      },
+      "rationale": "只知道错误码，缺少项目策略要求的对应账号证据，不能完成诊断。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "未取得与请求对应的账号快照，证据不足，转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 270.513
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.711361+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.711361+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.052,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.846352+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 135.227
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.846352+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.057,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:58.981569+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "account-states-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 134.967
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.981569+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 0.065,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.981569+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "not_found",
+            "message": "当前账号范围内未找到与该请求时间和版本匹配的账号快照。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "stale-snapshot",
+      "family": "snapshot-evidence",
+      "title": "快照来自其他时刻",
+      "setup": "stale_snapshot",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "not_found"
+        ],
+        "answer_contains": "快照"
+      },
+      "rationale": "旧时刻数字不能解释本次请求，工具应拒绝返回不匹配快照。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "未取得与请求对应的账号快照，证据不足，转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 269.757
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:58.998383+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:58.998383+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.05,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.132829+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 134.345
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.132829+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.057,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.267718+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "account-states-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 135.093
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.268352+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 0.061,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:59.268352+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "not_found",
+            "message": "当前账号范围内未找到与该请求时间和版本匹配的账号快照。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "snapshot-version",
+      "family": "snapshot-evidence",
+      "title": "快照服务版本不匹配",
+      "setup": "snapshot_version",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "not_found"
+        ],
+        "answer_contains": "快照"
+      },
+      "rationale": "同一编号也必须核对快照与请求的服务版本。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "未取得与请求对应的账号快照，证据不足，转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 257.935
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:59.285674+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.285674+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.049,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.414390+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 128.675
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.414390+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.053,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.542939+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "account-states-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 128.954
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.542939+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 0.063,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:59.542939+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "not_found",
+            "message": "当前账号范围内未找到与该请求时间和版本匹配的账号快照。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "quota-conflict",
+      "family": "conflicting-evidence",
+      "title": "配额错误码与尚有余量的快照冲突",
+      "setup": "quota_conflict",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "answer_contains": "一致证据"
+      },
+      "rationale": "构造将已用量降为 999；错误码和事实冲突，应转人工核对而非挑一边相信。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "请求错误码与账号数字未形成一致证据，转人工核对。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 397.963
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:59.561617+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.561617+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.048,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.692060+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 130.838
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.692060+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.057,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.825149+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                999,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 132.698
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.825653+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.077,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:50:59.959150+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 133.913
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.959150+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.089,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:59.959150+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 2,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 999,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "MONTHLY_QUOTA_EXHAUSTED",
+            "service_version": "demo-api-v1",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "ok",
+            "matches": [
+              {
+                "line_start": 11,
+                "line_end": 11,
+                "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+                "section": "虚构服务 Demo API v1：最小排错资料",
+                "table_header": {
+                  "line": 8,
+                  "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+                },
+                "doc_id": "demo-errors-v1",
+                "service_version": "demo-api-v1",
+                "source": "docs/demo-api-v1.md",
+                "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+                "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+                "score": 10,
+                "matched_terms": [
+                  "monthly_quota_exhausted"
+                ]
+              }
+            ],
+            "message": "返回相关原文，是否支持结论仍需核对。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "rate-conflict",
+      "family": "conflicting-evidence",
+      "title": "频率错误码与未超限快照冲突",
+      "setup": "rate_conflict",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "answer_contains": "一致证据"
+      },
+      "rationale": "构造将窗口请求数降为 2；当前规则无法解释错误码与数字的差异。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "请求错误码与账号数字未形成一致证据，转人工核对。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 385.968
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:50:59.978630+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:50:59.978630+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.071,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.106646+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_017"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "RATE_LIMIT_EXCEEDED"
+            },
+            "error": null,
+            "elapsed_ms": 127.704
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.106646+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.052,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.231490+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_017"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:00:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                999,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 125.213
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.231490+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.067,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.364419+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 19,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L10-L10"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 132.538
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.364419+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.082,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:00.364419+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_017"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_017",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:00:00Z",
+              "http_status": 429,
+              "error_code": "RATE_LIMIT_EXCEEDED",
+              "retry_after_seconds": 30
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_017"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_017",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:00:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 2,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 999,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "RATE_LIMIT_EXCEEDED",
+            "service_version": "demo-api-v1",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "ok",
+            "matches": [
+              {
+                "line_start": 10,
+                "line_end": 10,
+                "excerpt": "| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |",
+                "section": "虚构服务 Demo API v1：最小排错资料",
+                "table_header": {
+                  "line": 8,
+                  "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+                },
+                "doc_id": "demo-errors-v1",
+                "service_version": "demo-api-v1",
+                "source": "docs/demo-api-v1.md",
+                "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+                "citation": "demo-errors-v1@d849e3e33fcd:L10-L10",
+                "score": 10,
+                "matched_terms": [
+                  "rate_limit_exceeded"
+                ]
+              }
+            ],
+            "message": "返回相关原文，是否支持结论仍需核对。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "both-exceeded",
+      "family": "conflicting-evidence",
+      "title": "频率和配额同时触及限制",
+      "setup": "both_exceeded",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "ok"
+        ],
+        "answer_contains": "一致证据"
+      },
+      "rationale": "当前资料未规定双重限制时的错误优先级；本阶段采用保守转人工策略，不断言唯一根因。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "请求错误码与账号数字未形成一致证据，转人工核对。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 385.623
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:00.382416+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.382416+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.046,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.507241+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 124.966
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.507241+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.054,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.637172+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                61,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 130.102
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.637172+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.068,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.767725+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 130.068
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.767725+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.089,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:00.767725+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 61,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 1000,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "MONTHLY_QUOTA_EXHAUSTED",
+            "service_version": "demo-api-v1",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "ok",
+            "matches": [
+              {
+                "line_start": 11,
+                "line_end": 11,
+                "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+                "section": "虚构服务 Demo API v1：最小排错资料",
+                "table_header": {
+                  "line": 8,
+                  "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+                },
+                "doc_id": "demo-errors-v1",
+                "service_version": "demo-api-v1",
+                "source": "docs/demo-api-v1.md",
+                "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+                "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+                "score": 10,
+                "matched_terms": [
+                  "monthly_quota_exhausted"
+                ]
+              }
+            ],
+            "message": "返回相关原文，是否支持结论仍需核对。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "unsupported-503",
+      "family": "unsupported-error",
+      "title": "503 不在当前模拟决策覆盖内",
+      "setup": "unsupported_503",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok"
+        ],
+        "answer_contains": "其他错误"
+      },
+      "rationale": "当前尚无 503 诊断规则，本场景只验证范围外正确终止，不宣称已支持 5xx 诊断。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "本次模拟决策仅覆盖两种 429，其他错误需补充证据后处理。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 128.834
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:00.786091+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.786091+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.046,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:00.914666+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "SERVICE_UNAVAILABLE"
+            },
+            "error": null,
+            "elapsed_ms": 128.651
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.914666+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.051,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:00.914666+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 503,
+              "error_code": "SERVICE_UNAVAILABLE",
+              "retry_after_seconds": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "unsupported-401",
+      "family": "unsupported-error",
+      "title": "401 不在当前模拟决策覆盖内",
+      "setup": "unsupported_401",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok"
+        ],
+        "answer_contains": "其他错误"
+      },
+      "rationale": "没有权限与认证事实可用，本场景不证明已支持认证故障诊断。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "本次模拟决策仅覆盖两种 429，其他错误需补充证据后处理。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 127.103
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:00.934777+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:00.934777+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.047,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.061837+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "INVALID_API_KEY"
+            },
+            "error": null,
+            "elapsed_ms": 126.918
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.061837+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.053,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.061837+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 401,
+              "error_code": "INVALID_API_KEY",
+              "retry_after_seconds": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "docs-version",
+      "family": "document-evidence",
+      "title": "业务记录使用文档未覆盖的版本",
+      "setup": "docs_version",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "not_found"
+        ],
+        "answer_contains": "文档"
+      },
+      "rationale": "请求与快照都改为 demo-api-v2，不能自动套用 v1 文档。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "未找到适用的文档规则，证据不足，转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 379.942
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.081771+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.081771+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.067,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.216355+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 134.598
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.216355+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.054,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.340263+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 124.367
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.340263+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.067,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.461375+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v2",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "docs-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 120.493
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.461375+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.077,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.461375+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v2",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v2",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 2,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 1000,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "MONTHLY_QUOTA_EXHAUSTED",
+            "service_version": "demo-api-v2",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "not_found",
+            "matches": [],
+            "reason": "unsupported_version",
+            "message": "没有该服务版本的资料，不回退到其他版本。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "docs-missing",
+      "family": "document-evidence",
+      "title": "登记的文档文件缺失",
+      "setup": "docs_missing",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "ok",
+          "ok",
+          "storage_error"
+        ],
+        "answer_contains": "文档"
+      },
+      "rationale": "工具失败不是有效规则证据；不可用记忆补成文档引用。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "未找到适用的文档规则，证据不足，转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 379.659
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.473870+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.473870+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.044,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.600990+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 127.008
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.600990+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.059,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.725996+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 124.958
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.725996+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.071,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.853593+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "storage_error",
+              "dataset_version": "docs-v1"
+            },
+            "error": "storage_error",
+            "elapsed_ms": 127.194
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.853593+00:00",
+            "execution_mode": "mock",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.075,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.853593+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 2,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 1000,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        },
+        {
+          "name": "search_docs",
+          "arguments": {
+            "query": "MONTHLY_QUOTA_EXHAUSTED",
+            "service_version": "demo-api-v1",
+            "top_k": 1
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "docs-v1",
+            "retrieval_version": "keyword-v1",
+            "content_trust": "untrusted_document",
+            "status": "storage_error",
+            "matches": [],
+            "message": "文档不可用或格式不符；请检查应用登记的模拟文档。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "database-missing",
+      "family": "tool-failure",
+      "title": "模拟业务数据库不存在",
+      "setup": "database_missing",
+      "expected": {
+        "outcome": "handoff",
+        "tool_statuses": [
+          "storage_error"
+        ],
+        "answer_contains": "工具错误"
+      },
+      "rationale": "请求工具失败应明确停止；查询过程不能创建空数据库伪装正常状态。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "请求工具未提供可用证据，请人工检查工具错误。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 2,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 129.698
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.858798+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.858798+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.045,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:01.988138+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "storage_error",
+              "dataset_version": "requests-v1"
+            },
+            "error": "storage_error",
+            "elapsed_ms": 129.521
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:01.988138+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "final",
+            "elapsed_ms": 0.055,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:01.988138+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "storage_error",
+            "message": "模拟数据库不可用，请确认已运行 init-demo 且文件可读。"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "budget-two",
+      "family": "execution-budget",
+      "title": "工具预算只够查询两份证据",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "handoff",
+        "reason": "tool_budget_exhausted",
+        "tool_statuses": [
+          "ok",
+          "ok"
+        ],
+        "answer_contains": "预算"
+      },
+      "rationale": "预算 2 用完后不执行第三个检索工具，缺少文档证据时不生成诊断。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "tool_budget_exhausted",
+        "answer": "工具调用预算已用尽，证据收集未完成，已转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 257.244
+        },
+        "limits": {
+          "max_tool_calls": 2,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:02.001683+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:02.001683+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.05,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:02.130858+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 128.812
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:02.130858+00:00",
+            "execution_mode": "mock",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.055,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:02.258961+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 128.109
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:02.258961+00:00",
+            "execution_mode": "mock",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.067,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:02.258961+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "tool_budget_exhausted"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        },
+        {
+          "name": "get_account_state",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "account-states-v1",
+            "status": "ok",
+            "account_state": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate_window_seconds": 60,
+              "rate_limit_per_window": 60,
+              "requests_in_window": 2,
+              "monthly_quota_limit": 1000,
+              "monthly_quota_used": 1000,
+              "quota_resets_at": "2026-10-01T00:00:00Z"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "budget-zero",
+      "family": "execution-budget",
+      "title": "没有可执行工具的预算",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "handoff",
+        "reason": "tool_budget_exhausted",
+        "tool_statuses": [],
+        "answer_contains": "预算"
+      },
+      "rationale": "编号已知也不能绕过应用预算，零调用后终止。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "tool_budget_exhausted",
+        "answer": "工具调用预算已用尽，证据收集未完成，已转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 1,
+          "tool_calls": 0,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 0.07
+        },
+        "limits": {
+          "max_tool_calls": 0,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:02.272603+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:02.272603+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.045,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:02.272603+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "tool_budget_exhausted"
+          }
+        ]
+      },
+      "tool_evidence": []
+    },
+    {
+      "case_id": "turn-one",
+      "family": "execution-budget",
+      "title": "决策轮次只允许一轮",
+      "setup": "baseline",
+      "expected": {
+        "outcome": "handoff",
+        "reason": "turn_budget_exhausted",
+        "tool_statuses": [
+          "ok"
+        ],
+        "answer_contains": "轮次"
+      },
+      "rationale": "第一轮查询后没有下一轮决策额度，应由循环终止，不能伪装已经形成最终答复。",
+      "automated_pass": true,
+      "failed_checks": [],
+      "semantic_support_review": "not_applicable",
+      "result": {
+        "simulation": true,
+        "execution_mode": "mock",
+        "model_called": false,
+        "provider": null,
+        "model": null,
+        "loop_version": "tool-loop-v2",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "turn_budget_exhausted",
+        "answer": "决策轮次达到上限，尚未得到最终答复，已转人工。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 1,
+          "tool_calls": 1,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 127.242
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 1,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:02.285171+00:00",
+            "execution_mode": "mock",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_mock"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-04T17:51:02.285171+00:00",
+            "execution_mode": "mock",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.044,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-04T17:51:02.411883+00:00",
+            "execution_mode": "mock",
+            "call_id": "call_1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 127.098
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-04T17:51:02.411883+00:00",
+            "execution_mode": "mock",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "turn_budget_exhausted"
+          }
+        ]
+      },
+      "tool_evidence": [
+        {
+          "name": "get_request_record",
+          "arguments": {
+            "request_id": "req_demo_018"
+          },
+          "result": {
+            "simulation": true,
+            "dataset_version": "requests-v1",
+            "status": "ok",
+            "record": {
+              "request_id": "req_demo_018",
+              "service_version": "demo-api-v1",
+              "occurred_at": "2026-09-27T02:01:00Z",
+              "http_status": 429,
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+              "retry_after_seconds": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

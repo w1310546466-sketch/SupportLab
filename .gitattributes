@@ -1,0 +1,3 @@
+# Frozen source and evidence manifests use byte-level SHA-256 checks.
+# Preserve exact bytes during staging and checkout on every platform.
+* -text

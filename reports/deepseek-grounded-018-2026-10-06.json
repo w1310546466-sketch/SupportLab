@@ -1,0 +1,257 @@
+{
+  "simulation": true,
+  "execution_mode": "live",
+  "model_called": true,
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "loop_version": "tool-loop-v3",
+  "status": "handoff",
+  "outcome": "handoff",
+  "reason": "unsupported_assessment",
+  "answer": "诊断未通过证据检查，已停止并转人工；未采用未经核实的结论或建议。",
+  "citations": [],
+  "usage": {
+    "decision_turns": 4,
+    "tool_calls": 3,
+    "model_api_calls": 3,
+    "model_responses_received": 3,
+    "token_usage": {
+      "input_tokens": 5129,
+      "output_tokens": 270,
+      "total_tokens": 5399
+    },
+    "usage_complete": true,
+    "model_limits": {
+      "max_api_calls": 4,
+      "max_output_tokens": 768,
+      "max_input_bytes": 24000,
+      "request_timeout_seconds": 25.0,
+      "total_seconds": 110.0,
+      "automatic_retries": 0
+    },
+    "elapsed_ms": 8574.136
+  },
+  "limits": {
+    "max_tool_calls": 4,
+    "max_turns": 8,
+    "tool_timeout_seconds": 2.0
+  },
+  "trace": [
+    {
+      "event": "state",
+      "timestamp": "2026-10-05T19:07:10.530409+00:00",
+      "execution_mode": "live",
+      "previous": "pending",
+      "current": "running",
+      "reason": "start_live"
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-05T19:07:13.383329+00:00",
+      "execution_mode": "live",
+      "turn": 1,
+      "action": "tool_call",
+      "elapsed_ms": 2852.789,
+      "proposed_tool": "get_request_record",
+      "model_api_calls": 1,
+      "model_responses_received": 1,
+      "token_usage": {
+        "input_tokens": 1183,
+        "output_tokens": 92,
+        "total_tokens": 1275
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "tool",
+      "timestamp": "2026-10-05T19:07:13.512509+00:00",
+      "execution_mode": "live",
+      "call_id": "call_00_Ybnxgr3UprmsoCfuQmky5991",
+      "attempt": 1,
+      "tool": "get_request_record",
+      "validated_arguments": {
+        "request_id": "req_demo_018"
+      },
+      "result_summary": {
+        "status": "ok",
+        "dataset_version": "requests-v1",
+        "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+      },
+      "error": null,
+      "elapsed_ms": 129.57
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-05T19:07:13.512509+00:00",
+      "execution_mode": "live",
+      "turn": 2,
+      "action": "tool_call",
+      "elapsed_ms": 0.076,
+      "proposed_tool": "get_account_state",
+      "model_api_calls": 1,
+      "model_responses_received": 1,
+      "token_usage": {
+        "input_tokens": 1183,
+        "output_tokens": 92,
+        "total_tokens": 1275
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "tool",
+      "timestamp": "2026-10-05T19:07:13.641313+00:00",
+      "execution_mode": "live",
+      "call_id": "call_01_zgOhwz0ugkHXYteaHitl7117",
+      "attempt": 2,
+      "tool": "get_account_state",
+      "validated_arguments": {
+        "request_id": "req_demo_018"
+      },
+      "result_summary": {
+        "status": "ok",
+        "dataset_version": "account-states-v1",
+        "captured_at": "2026-09-27T02:01:00Z",
+        "rate": [
+          2,
+          60
+        ],
+        "quota": [
+          1000,
+          1000
+        ]
+      },
+      "error": null,
+      "elapsed_ms": 128.602
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-05T19:07:16.444509+00:00",
+      "execution_mode": "live",
+      "turn": 3,
+      "action": "tool_call",
+      "elapsed_ms": 2802.803,
+      "proposed_tool": "search_docs",
+      "model_api_calls": 2,
+      "model_responses_received": 2,
+      "token_usage": {
+        "input_tokens": 2715,
+        "output_tokens": 192,
+        "total_tokens": 2907
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "tool",
+      "timestamp": "2026-10-05T19:07:16.576009+00:00",
+      "execution_mode": "live",
+      "call_id": "call_00_eWFqwqCvmW667ex2aFKk8969",
+      "attempt": 3,
+      "tool": "search_docs",
+      "validated_arguments": {
+        "query_chars": 41,
+        "service_version": "demo-api-v1",
+        "top_k": 3
+      },
+      "result_summary": {
+        "status": "ok",
+        "dataset_version": "docs-v1",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L11-L11",
+          "demo-account-state-v1@c58dcdf22b91:L41-L41",
+          "demo-errors-v1@d849e3e33fcd:L10-L10"
+        ]
+      },
+      "error": null,
+      "elapsed_ms": 131.482
+    },
+    {
+      "event": "decision",
+      "timestamp": "2026-10-05T19:07:19.104190+00:00",
+      "execution_mode": "live",
+      "turn": 4,
+      "action": "final",
+      "elapsed_ms": 2528.464,
+      "proposed_tool": null,
+      "model_api_calls": 3,
+      "model_responses_received": 3,
+      "token_usage": {
+        "input_tokens": 5129,
+        "output_tokens": 270,
+        "total_tokens": 5399
+      },
+      "usage_complete": true,
+      "model_limits": {
+        "max_api_calls": 4,
+        "max_output_tokens": 768,
+        "max_input_bytes": 24000,
+        "request_timeout_seconds": 25.0,
+        "total_seconds": 110.0,
+        "automatic_retries": 0
+      }
+    },
+    {
+      "event": "answer_check",
+      "timestamp": "2026-10-05T19:07:19.104190+00:00",
+      "execution_mode": "live",
+      "contract": "grounded-429-v1",
+      "passed": false,
+      "issues": [
+        "missing_evidence"
+      ],
+      "scope": "two_simulated_429_causes",
+      "human_review": "pending"
+    },
+    {
+      "event": "state",
+      "timestamp": "2026-10-05T19:07:19.104687+00:00",
+      "execution_mode": "live",
+      "previous": "running",
+      "current": "handoff",
+      "reason": "unsupported_assessment"
+    }
+  ],
+  "answer_check": {
+    "contract": "grounded-429-v1",
+    "passed": false,
+    "issues": [
+      "missing_evidence"
+    ],
+    "scope": "two_simulated_429_causes",
+    "human_review": "pending"
+  },
+  "reproducibility": {
+    "adapter_version": "deepseek-chat-v2",
+    "sdk_version": "3.24.0",
+    "answer_contract": "grounded-429-v1",
+    "code_sha256": "f7eee409aa6be3f49fb4f3dcab5c2a8f4581a78eaa40902ab74e19ac809c9f22",
+    "source_sha256": "a5033628bc35b1b38905cfcd2e3544df01b375764db7777419d4f8e7cad07966",
+    "prompt_sha256": "5c20ce119e72bdc220054b92b9c41aa9ed499ba7ef59b5092f7e324fc381d4f3",
+    "case_id": "req_demo_018",
+    "semantic_review": "pending",
+    "cost": null
+  }
+}

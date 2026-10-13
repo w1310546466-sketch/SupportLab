@@ -1,0 +1,20 @@
+{
+  "version": "holdout-seal-v2",
+  "sealed_at": "2026-10-06T12:14:40.4744643Z",
+  "case_count": 12,
+  "family_count": 3,
+  "human_review": "pending",
+  "files": {
+    "evals/holdout_v2.json": "1398f264ef83f98c0ab2b46b4820dad32f0f6aadb3477dd46d4304ed7cfc5ef8",
+    "evals/build_holdout_v2.py": "f4b1b373e009da29dd7472ed9d1bffac6ffcf87da08f456bcb9fb986d9b021f0",
+    "evals/acceptance_candidate_v2.json": "3e840acde44e40f745047813fce6ceb7c46fae24bdb730323df32c6383149809",
+    "evals/holdout_v1.disposition.json": "f5e0293189d76e6002986b0545f1550a9b7c2cf0c580b4463f585fbad49926d2",
+    "evals/prepare_acceptance_candidate.py": "6b2f8e9b7a3eac2871b8e492ef2b86734b892bf77a3a56b9269958d7c65a7970",
+    "evals/holdout_v1.seal.json": "149e7c1caaed42a0c2e89f3189ec30f9681b3b69c25f8d606eda60f7c6f88a9a",
+    "supportlab/acceptance_release.py": "aef68c0bdf5d5c5cadc2af7a4cbc5867406efc1cedc6dfde24f0b85658907682",
+    "tests/test_acceptance_release.py": "718c78d31429e9e9de0182d1ddb5a663713314317f3bab75f2bfeec9a840e3a3",
+    "tests/test_rag_usage.py": "90f79ccb2982f5e10032949285fc8febb8b45a31ca6338323c7d8ffade0c9695",
+    "reports/acceptance-v1-frozen-source.zip": "2960f846b8b79dd1081b004c4c80de1e4e8a9a160e997d3c60d60c5662d10d98"
+  },
+  "note": "Sealed after candidate freeze and before supplemental case execution. Not third-party notarization."
+}

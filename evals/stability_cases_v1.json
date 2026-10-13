@@ -1,0 +1,18 @@
+{
+  "dataset_version": "stability-dev-v1",
+  "simulation": true,
+  "split": "development_repeated",
+  "human_review": "pending",
+  "repetitions": 2,
+  "note": "Existing development scenarios, repeated with fresh data and a fresh adapter. Not held-out accuracy; no tuning during a run.",
+  "cases": [
+    {"id":"expired","title":"凭据在请求发生时已过期","family":"expired_credential","request_id":"req_auth_expired","setup":"baseline","outcome":"diagnosis","cause":"token_expired"},
+    {"id":"permission","title":"凭据有效但缺少所需权限","family":"scope_authorization","request_id":"req_permission_missing","setup":"baseline","outcome":"diagnosis","cause":"scope_missing"},
+    {"id":"incident","title":"请求关联同服务、同时间段的上游事件","family":"incident_association","request_id":"req_upstream_incident","setup":"baseline","outcome":"diagnosis","cause":"upstream_incident_confirmed"},
+    {"id":"timeout","title":"超时后执行结果未知，核验后停止","family":"execution_uncertainty","request_id":"req_timeout_unknown","setup":"baseline","outcome":"handoff","reason":"execution_unknown"},
+    {"id":"revoked","title":"请求使用已撤销凭据","family":"revoked_credential","request_id":"req_auth_revoked","setup":"baseline","outcome":"diagnosis","cause":"credential_revoked"},
+    {"id":"rate","title":"频率超限而月度配额未耗尽","family":"rate_limit","request_id":"req_demo_017","setup":"baseline","outcome":"diagnosis","cause":"rate_limit_exceeded"},
+    {"id":"quota","title":"月度配额耗尽而当前频率未超限","family":"monthly_quota","request_id":"req_demo_018","setup":"baseline","outcome":"diagnosis","cause":"monthly_quota_exhausted"},
+    {"id":"snapshot-missing","title":"查到请求但缺少对应快照","family":"snapshot_missing","request_id":"req_auth_revoked","setup":"missing","outcome":"handoff","reason":"account_unavailable"}
+  ]
+}

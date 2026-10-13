@@ -1,0 +1,917 @@
+{
+  "created_at": "2026-10-05T19:10:21.185945+00:00",
+  "simulation": true,
+  "execution_mode": "scripted",
+  "split": "development",
+  "dataset_version": "answer-demo-v1",
+  "answer_contract": "grounded-429-v2",
+  "model_api_calls": 0,
+  "token_usage": null,
+  "human_review": "pending",
+  "case_count": 4,
+  "expected_behavior_count": 4,
+  "code_sha256": "0f6a12fa77bf6ef24f9c2163a4095eb8d76df1a8ff893a5ee0f85d4060c2e8d8",
+  "source_sha256": "a5033628bc35b1b38905cfcd2e3544df01b375764db7777419d4f8e7cad07966",
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab answer-demo",
+  "limitations": [
+    "脚本故意构造的开发反例，不是观测到的真实模型错误或成功率。",
+    "仅核验固定版本两种 429 和有限建议选项，不是通用语义评审。"
+  ],
+  "cases": [
+    {
+      "id": "supported",
+      "title": "正确配额诊断，建议标为待核实",
+      "expected_issue": null,
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "answer-demo-script-v1",
+        "loop_version": "tool-loop-v3.1",
+        "status": "completed",
+        "outcome": "diagnosis",
+        "reason": "final_reply",
+        "answer": "已查证事实（模拟历史记录）：请求 req_demo_018 发生于 2026-09-27T02:01:00Z，错误码为 MONTHLY_QUOTA_EXHAUSTED。同一时刻的 60 秒窗口请求数/上限为 2/60，月度已用量/上限为 1000/1000。\n诊断：该次历史请求的证据支持“月度配额耗尽”。规则依据：demo-errors-v1@d849e3e33fcd:L11-L11。\n时间范围：当时快照登记的配额重置时间为 2026-10-01T00:00:00Z；这一历史计划时间不能证明今天已经恢复。\n该次请求没有提供建议等待秒数；不能把空值解释为立即重试。\n待核实：\n- 若要判断现在能否继续请求，需另行取得当前状态；现有工具只提供历史快照。\n- 现有资料未说明是否能申请额外配额，需向服务方核实可用方案及生效条件。",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L11-L11"
+        ],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 398.453
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:19.706731+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:19.706731+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.112,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:19.837747+00:00",
+            "execution_mode": "scripted",
+            "call_id": "request",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 130.587
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:19.837747+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.057,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:19.969460+00:00",
+            "execution_mode": "scripted",
+            "call_id": "account",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 132.074
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:19.969991+00:00",
+            "execution_mode": "scripted",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.069,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.104349+00:00",
+            "execution_mode": "scripted",
+            "call_id": "docs",
+            "evidence_id": "E3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 135.063
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.104349+00:00",
+            "execution_mode": "scripted",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.088,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "answer_check",
+            "timestamp": "2026-10-05T19:10:20.105351+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-429-v2",
+            "passed": true,
+            "issues": [],
+            "scope": "two_simulated_429_causes",
+            "human_review": "pending",
+            "references": {
+              "request_evidence_id": "E1",
+              "account_evidence_id": "E2"
+            },
+            "available_evidence": [
+              {
+                "id": "E1",
+                "tool": "get_request_record",
+                "status": "ok"
+              },
+              {
+                "id": "E2",
+                "tool": "get_account_state",
+                "status": "ok"
+              },
+              {
+                "id": "E3",
+                "tool": "search_docs",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:20.105351+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "completed",
+            "reason": "final_reply"
+          }
+        ],
+        "answer_check": {
+          "contract": "grounded-429-v2",
+          "passed": true,
+          "issues": [],
+          "scope": "two_simulated_429_causes",
+          "human_review": "pending",
+          "references": {
+            "request_evidence_id": "E1",
+            "account_evidence_id": "E2"
+          },
+          "available_evidence": [
+            {
+              "id": "E1",
+              "tool": "get_request_record",
+              "status": "ok"
+            },
+            {
+              "id": "E2",
+              "tool": "get_account_state",
+              "status": "ok"
+            },
+            {
+              "id": "E3",
+              "tool": "search_docs",
+              "status": "ok"
+            }
+          ]
+        },
+        "structured_answer": {
+          "scope": "historical_simulation",
+          "facts": {
+            "request": {
+              "evidence_id": "E1",
+              "values": {
+                "request_id": "req_demo_018",
+                "occurred_at": "2026-09-27T02:01:00Z",
+                "service_version": "demo-api-v1",
+                "http_status": 429,
+                "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+                "retry_after_seconds": null
+              }
+            },
+            "account": {
+              "evidence_id": "E2",
+              "values": {
+                "rate_window_seconds": 60,
+                "rate_limit_per_window": 60,
+                "requests_in_window": 2,
+                "monthly_quota_limit": 1000,
+                "monthly_quota_used": 1000,
+                "captured_at": "2026-09-27T02:01:00Z",
+                "quota_resets_at": "2026-10-01T00:00:00Z"
+              }
+            }
+          },
+          "diagnosis": {
+            "cause": "monthly_quota_exhausted",
+            "label": "月度配额耗尽",
+            "rule_citation": "demo-errors-v1@d849e3e33fcd:L11-L11"
+          },
+          "follow_up": [
+            {
+              "code": "check_current_status",
+              "status": "needs_verification",
+              "text": "若要判断现在能否继续请求，需另行取得当前状态；现有工具只提供历史快照。"
+            },
+            {
+              "code": "verify_quota_options",
+              "status": "needs_verification",
+              "text": "现有资料未说明是否能申请额外配额，需向服务方核实可用方案及生效条件。"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "wrong-cause",
+      "title": "拿着真实引用，却断言频率超限",
+      "expected_issue": "cause_not_supported",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "answer-demo-script-v1",
+        "loop_version": "tool-loop-v3.1",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "unsupported_assessment",
+        "answer": "诊断未通过证据检查，已停止并转人工；未采用未经核实的结论或建议。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 390.51
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:20.115869+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.116397+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.158,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.244269+00:00",
+            "execution_mode": "scripted",
+            "call_id": "request",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 128.478
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.245272+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.097,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.373953+00:00",
+            "execution_mode": "scripted",
+            "call_id": "account",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 129.136
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.374501+00:00",
+            "execution_mode": "scripted",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.071,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.506441+00:00",
+            "execution_mode": "scripted",
+            "call_id": "docs",
+            "evidence_id": "E3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 132.09
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.506441+00:00",
+            "execution_mode": "scripted",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.09,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "answer_check",
+            "timestamp": "2026-10-05T19:10:20.506441+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-429-v2",
+            "passed": false,
+            "issues": [
+              "cause_not_supported"
+            ],
+            "scope": "two_simulated_429_causes",
+            "human_review": "pending",
+            "references": {
+              "request_evidence_id": "E1",
+              "account_evidence_id": "E2"
+            },
+            "available_evidence": [
+              {
+                "id": "E1",
+                "tool": "get_request_record",
+                "status": "ok"
+              },
+              {
+                "id": "E2",
+                "tool": "get_account_state",
+                "status": "ok"
+              },
+              {
+                "id": "E3",
+                "tool": "search_docs",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:20.506441+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "unsupported_assessment"
+          }
+        ],
+        "answer_check": {
+          "contract": "grounded-429-v2",
+          "passed": false,
+          "issues": [
+            "cause_not_supported"
+          ],
+          "scope": "two_simulated_429_causes",
+          "human_review": "pending",
+          "references": {
+            "request_evidence_id": "E1",
+            "account_evidence_id": "E2"
+          },
+          "available_evidence": [
+            {
+              "id": "E1",
+              "tool": "get_request_record",
+              "status": "ok"
+            },
+            {
+              "id": "E2",
+              "tool": "get_account_state",
+              "status": "ok"
+            },
+            {
+              "id": "E3",
+              "tool": "search_docs",
+              "status": "ok"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "unsupported-advice",
+      "title": "诊断正确，但承诺立即增加配额",
+      "expected_issue": "unsupported_follow_up",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "answer-demo-script-v1",
+        "loop_version": "tool-loop-v3.1",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "unsupported_assessment",
+        "answer": "诊断未通过证据检查，已停止并转人工；未采用未经核实的结论或建议。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 395.756
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:20.516364+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.516364+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.071,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.647956+00:00",
+            "execution_mode": "scripted",
+            "call_id": "request",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 130.959
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.647956+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.055,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.778299+00:00",
+            "execution_mode": "scripted",
+            "call_id": "account",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 129.97
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.778299+00:00",
+            "execution_mode": "scripted",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 0.156,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:20.912360+00:00",
+            "execution_mode": "scripted",
+            "call_id": "docs",
+            "evidence_id": "E3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 133.989
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.912360+00:00",
+            "execution_mode": "scripted",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 0.176,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "answer_check",
+            "timestamp": "2026-10-05T19:10:20.912360+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-429-v2",
+            "passed": false,
+            "issues": [
+              "unsupported_follow_up"
+            ],
+            "scope": "two_simulated_429_causes",
+            "human_review": "pending",
+            "references": {
+              "request_evidence_id": "E1",
+              "account_evidence_id": "E2"
+            },
+            "available_evidence": [
+              {
+                "id": "E1",
+                "tool": "get_request_record",
+                "status": "ok"
+              },
+              {
+                "id": "E2",
+                "tool": "get_account_state",
+                "status": "ok"
+              },
+              {
+                "id": "E3",
+                "tool": "search_docs",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:20.912917+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "unsupported_assessment"
+          }
+        ],
+        "answer_check": {
+          "contract": "grounded-429-v2",
+          "passed": false,
+          "issues": [
+            "unsupported_follow_up"
+          ],
+          "scope": "two_simulated_429_causes",
+          "human_review": "pending",
+          "references": {
+            "request_evidence_id": "E1",
+            "account_evidence_id": "E2"
+          },
+          "available_evidence": [
+            {
+              "id": "E1",
+              "tool": "get_request_record",
+              "status": "ok"
+            },
+            {
+              "id": "E2",
+              "tool": "get_account_state",
+              "status": "ok"
+            },
+            {
+              "id": "E3",
+              "tool": "search_docs",
+              "status": "ok"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "missing-account",
+      "title": "缺少账号查询结果，仍尝试诊断",
+      "expected_issue": "missing_evidence",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "scripted",
+        "model_called": false,
+        "provider": null,
+        "model": "answer-demo-script-v1",
+        "loop_version": "tool-loop-v3.1",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "unsupported_assessment",
+        "answer": "诊断未通过证据检查，已停止并转人工；未采用未经核实的结论或建议。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 0,
+          "token_usage": null,
+          "elapsed_ms": 262.047
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:20.923120+00:00",
+            "execution_mode": "scripted",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_scripted"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:20.923120+00:00",
+            "execution_mode": "scripted",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 0.053,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:21.052956+00:00",
+            "execution_mode": "scripted",
+            "call_id": "request",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 129.654
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:21.052956+00:00",
+            "execution_mode": "scripted",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.055,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-05T19:10:21.184432+00:00",
+            "execution_mode": "scripted",
+            "call_id": "docs",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 23,
+              "service_version": "demo-api-v1",
+              "top_k": 1
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 132.024
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-05T19:10:21.184432+00:00",
+            "execution_mode": "scripted",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 0.072,
+            "proposed_tool": null,
+            "model_api_calls": 0,
+            "token_usage": null
+          },
+          {
+            "event": "answer_check",
+            "timestamp": "2026-10-05T19:10:21.184432+00:00",
+            "execution_mode": "scripted",
+            "contract": "grounded-429-v2",
+            "passed": false,
+            "issues": [
+              "missing_evidence"
+            ],
+            "scope": "two_simulated_429_causes",
+            "human_review": "pending",
+            "references": {
+              "request_evidence_id": "E1",
+              "account_evidence_id": "E9"
+            },
+            "available_evidence": [
+              {
+                "id": "E1",
+                "tool": "get_request_record",
+                "status": "ok"
+              },
+              {
+                "id": "E2",
+                "tool": "search_docs",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-05T19:10:21.184432+00:00",
+            "execution_mode": "scripted",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "unsupported_assessment"
+          }
+        ],
+        "answer_check": {
+          "contract": "grounded-429-v2",
+          "passed": false,
+          "issues": [
+            "missing_evidence"
+          ],
+          "scope": "two_simulated_429_causes",
+          "human_review": "pending",
+          "references": {
+            "request_evidence_id": "E1",
+            "account_evidence_id": "E9"
+          },
+          "available_evidence": [
+            {
+              "id": "E1",
+              "tool": "get_request_record",
+              "status": "ok"
+            },
+            {
+              "id": "E2",
+              "tool": "search_docs",
+              "status": "ok"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-10-06T12:10:27.590493+00:00",
+  "source_suite": "composition-holdout-v1",
+  "first_report": "reports/holdout-v1-first-2026-10-06.json",
+  "first_report_sha256": "f5baee477e5743a3b75f819e5d3f965333918d6e4e6c92dc634ba8d5e06a0b45",
+  "first_score": {
+    "passed": 25,
+    "cases": 40
+  },
+  "failure_kind": "RAG usage omitted explicit tool_calls=0; outcome, diagnosis, state and citation checks passed",
+  "affected_families": [
+    "compound_failure_precedence",
+    "context_preference_lifecycle",
+    "interleaved_pending_sessions",
+    "revision_across_pending_task",
+    "same_target_reclassification"
+  ],
+  "retired_case_count": 25,
+  "suite_replay_classification": "regression_after_holdout_exposure",
+  "policy": "All v1 replays are regression; do not replace first report or claim unseen accuracy."
+}

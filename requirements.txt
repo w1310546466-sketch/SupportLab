@@ -1,0 +1,6 @@
+# Business tools and the mock path use only the Python standard library.
+# Official OpenAI Python SDK, used with DeepSeek's compatible endpoint.
+openai==3.24.0
+langgraph==1.2.13
+langgraph-checkpoint-sqlite==3.1.1
+# Verified locally: Python 3.12.3, SQLite 3.45.1.

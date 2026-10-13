@@ -1,0 +1,494 @@
+{
+  "created_at": "2026-10-11T13:05:47.967519+00:00",
+  "purpose": "Offline teaching examples, not model evaluation",
+  "simulation": true,
+  "model_api_calls": 0,
+  "index": {
+    "status": "ready",
+    "index_version": "fts-keyword-v3",
+    "document_count": 4,
+    "chunk_count": 32,
+    "manifest": {
+      "demo-api-v1.md": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+      "demo-account-state-v1.md": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+      "demo-diagnostics-v1.md": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+      "demo-support-guide-v1.md": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf"
+    },
+    "simulation": true
+  },
+  "examples": [
+    {
+      "question": "MONTHLY_QUOTA_EXHAUSTED",
+      "result": {
+        "simulation": true,
+        "execution_mode": "extractive_offline",
+        "rag_version": "extractive-rag-v2.1",
+        "retrieval": {
+          "simulation": true,
+          "index_version": "fts-keyword-v3",
+          "matches": [
+            {
+              "line_start": 41,
+              "line_end": 41,
+              "excerpt": "| `req_demo_018` | 2026-09-27 02:01:00 | 2 / 60 | 1000 / 1000 | `MONTHLY_QUOTA_EXHAUSTED` |",
+              "section": "两条构造记录",
+              "table_header": {
+                "line": 38,
+                "text": "| 请求 | 时间（UTC） | 窗口请求数 / 上限 | 月度已用量 / 上限 | 可核对的请求错误码 |"
+              },
+              "doc_id": "demo-account-state-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-account-state-v1.md",
+              "document_sha256": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+              "citation": "demo-account-state-v1@c58dcdf22b91:L41-L41",
+              "score": 10,
+              "bm25": -3.4367782164214193,
+              "matched_terms": [
+                "monthly_quota_exhausted"
+              ]
+            },
+            {
+              "line_start": 11,
+              "line_end": 11,
+              "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+              "section": "虚构服务 Demo API v1：最小排错资料",
+              "table_header": {
+                "line": 8,
+                "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+              },
+              "doc_id": "demo-errors-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-api-v1.md",
+              "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+              "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+              "score": 10,
+              "bm25": -3.2339685847663566,
+              "matched_terms": [
+                "monthly_quota_exhausted"
+              ]
+            }
+          ],
+          "content_trust": "untrusted_document",
+          "status": "ok",
+          "query_expansions": [],
+          "query_terms": [
+            "monthly_quota_exhausted"
+          ],
+          "source_manifest": {
+            "demo-api-v1.md": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "demo-account-state-v1.md": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "demo-diagnostics-v1.md": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+            "demo-support-guide-v1.md": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf"
+          }
+        },
+        "status": "completed",
+        "outcome": "docs",
+        "reason": "document_answer",
+        "citations": [
+          "demo-account-state-v1@c58dcdf22b91:L41-L41",
+          "demo-errors-v1@d849e3e33fcd:L11-L11"
+        ],
+        "model_called": false,
+        "answer": "文档回答（虚构服务原文）：\n\n请求：`req_demo_018`；时间（UTC）：2026-09-27 02:01:00；窗口请求数 / 上限：2 / 60；月度已用量 / 上限：1000 / 1000；可核对的请求错误码：`MONTHLY_QUOTA_EXHAUSTED`\n依据：demo-account-state-v1@c58dcdf22b91:L41-L41\n\nHTTP 状态：429；服务错误码：`MONTHLY_QUOTA_EXHAUSTED`；本虚构服务中的含义：月度用量配额耗尽；建议进一步核查：当前月度配额、已用量及重置时间\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\n\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。",
+        "rag_check": {
+          "passed": true,
+          "scope": "selected_sources_only_not_general_semantics"
+        },
+        "selected_evidence": [
+          {
+            "line_start": 41,
+            "line_end": 41,
+            "excerpt": "| `req_demo_018` | 2026-09-27 02:01:00 | 2 / 60 | 1000 / 1000 | `MONTHLY_QUOTA_EXHAUSTED` |",
+            "section": "两条构造记录",
+            "table_header": {
+              "line": 38,
+              "text": "| 请求 | 时间（UTC） | 窗口请求数 / 上限 | 月度已用量 / 上限 | 可核对的请求错误码 |"
+            },
+            "doc_id": "demo-account-state-v1",
+            "service_version": "demo-api-v1",
+            "source": "docs/demo-account-state-v1.md",
+            "document_sha256": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "citation": "demo-account-state-v1@c58dcdf22b91:L41-L41",
+            "score": 10,
+            "bm25": -3.4367782164214193,
+            "matched_terms": [
+              "monthly_quota_exhausted"
+            ]
+          },
+          {
+            "line_start": 11,
+            "line_end": 11,
+            "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+            "section": "虚构服务 Demo API v1：最小排错资料",
+            "table_header": {
+              "line": 8,
+              "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+            },
+            "doc_id": "demo-errors-v1",
+            "service_version": "demo-api-v1",
+            "source": "docs/demo-api-v1.md",
+            "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+            "score": 10,
+            "bm25": -3.2339685847663566,
+            "matched_terms": [
+              "monthly_quota_exhausted"
+            ]
+          }
+        ],
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0,
+          "elapsed_ms": 4.802
+        }
+      }
+    },
+    {
+      "question": "次数用完了怎么办",
+      "result": {
+        "simulation": true,
+        "execution_mode": "extractive_offline",
+        "rag_version": "extractive-rag-v2.1",
+        "retrieval": {
+          "simulation": true,
+          "index_version": "fts-keyword-v3",
+          "matches": [
+            {
+              "line_start": 41,
+              "line_end": 41,
+              "excerpt": "| `req_demo_018` | 2026-09-27 02:01:00 | 2 / 60 | 1000 / 1000 | `MONTHLY_QUOTA_EXHAUSTED` |",
+              "section": "两条构造记录",
+              "table_header": {
+                "line": 38,
+                "text": "| 请求 | 时间（UTC） | 窗口请求数 / 上限 | 月度已用量 / 上限 | 可核对的请求错误码 |"
+              },
+              "doc_id": "demo-account-state-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-account-state-v1.md",
+              "document_sha256": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+              "citation": "demo-account-state-v1@c58dcdf22b91:L41-L41",
+              "score": 10,
+              "bm25": -3.4367782164214193,
+              "matched_terms": [
+                "monthly_quota_exhausted"
+              ]
+            },
+            {
+              "line_start": 11,
+              "line_end": 11,
+              "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+              "section": "虚构服务 Demo API v1：最小排错资料",
+              "table_header": {
+                "line": 8,
+                "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+              },
+              "doc_id": "demo-errors-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-api-v1.md",
+              "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+              "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+              "score": 10,
+              "bm25": -3.2339685847663566,
+              "matched_terms": [
+                "monthly_quota_exhausted"
+              ]
+            },
+            {
+              "line_start": 17,
+              "line_end": 17,
+              "excerpt": "请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。",
+              "section": "频率与配额",
+              "table_header": null,
+              "doc_id": "demo-support-guide-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-support-guide-v1.md",
+              "document_sha256": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf",
+              "citation": "demo-support-guide-v1@7c553393563d:L17-L17",
+              "score": 3,
+              "bm25": -6.683824690184467,
+              "matched_terms": [
+                "数用",
+                "次数",
+                "用完"
+              ]
+            }
+          ],
+          "content_trust": "untrusted_document",
+          "status": "ok",
+          "query_expansions": [
+            "MONTHLY_QUOTA_EXHAUSTED"
+          ],
+          "query_terms": [
+            "monthly_quota_exhausted",
+            "么办",
+            "了怎",
+            "完了",
+            "数用",
+            "次数",
+            "用完"
+          ],
+          "source_manifest": {
+            "demo-api-v1.md": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "demo-account-state-v1.md": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "demo-diagnostics-v1.md": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+            "demo-support-guide-v1.md": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf"
+          }
+        },
+        "status": "completed",
+        "outcome": "docs",
+        "reason": "document_answer",
+        "citations": [
+          "demo-account-state-v1@c58dcdf22b91:L41-L41",
+          "demo-errors-v1@d849e3e33fcd:L11-L11"
+        ],
+        "model_called": false,
+        "answer": "文档回答（虚构服务原文）：\n\n请求：`req_demo_018`；时间（UTC）：2026-09-27 02:01:00；窗口请求数 / 上限：2 / 60；月度已用量 / 上限：1000 / 1000；可核对的请求错误码：`MONTHLY_QUOTA_EXHAUSTED`\n依据：demo-account-state-v1@c58dcdf22b91:L41-L41\n\nHTTP 状态：429；服务错误码：`MONTHLY_QUOTA_EXHAUSTED`；本虚构服务中的含义：月度用量配额耗尽；建议进一步核查：当前月度配额、已用量及重置时间\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\n\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。",
+        "rag_check": {
+          "passed": true,
+          "scope": "selected_sources_only_not_general_semantics"
+        },
+        "selected_evidence": [
+          {
+            "line_start": 41,
+            "line_end": 41,
+            "excerpt": "| `req_demo_018` | 2026-09-27 02:01:00 | 2 / 60 | 1000 / 1000 | `MONTHLY_QUOTA_EXHAUSTED` |",
+            "section": "两条构造记录",
+            "table_header": {
+              "line": 38,
+              "text": "| 请求 | 时间（UTC） | 窗口请求数 / 上限 | 月度已用量 / 上限 | 可核对的请求错误码 |"
+            },
+            "doc_id": "demo-account-state-v1",
+            "service_version": "demo-api-v1",
+            "source": "docs/demo-account-state-v1.md",
+            "document_sha256": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "citation": "demo-account-state-v1@c58dcdf22b91:L41-L41",
+            "score": 10,
+            "bm25": -3.4367782164214193,
+            "matched_terms": [
+              "monthly_quota_exhausted"
+            ]
+          },
+          {
+            "line_start": 11,
+            "line_end": 11,
+            "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+            "section": "虚构服务 Demo API v1：最小排错资料",
+            "table_header": {
+              "line": 8,
+              "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+            },
+            "doc_id": "demo-errors-v1",
+            "service_version": "demo-api-v1",
+            "source": "docs/demo-api-v1.md",
+            "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+            "score": 10,
+            "bm25": -3.2339685847663566,
+            "matched_terms": [
+              "monthly_quota_exhausted"
+            ]
+          }
+        ],
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0,
+          "elapsed_ms": 3.499
+        }
+      }
+    },
+    {
+      "question": "429 是什么意思",
+      "result": {
+        "simulation": true,
+        "execution_mode": "extractive_offline",
+        "rag_version": "extractive-rag-v2.1",
+        "retrieval": {
+          "simulation": true,
+          "index_version": "fts-keyword-v3",
+          "matches": [
+            {
+              "line_start": 10,
+              "line_end": 10,
+              "excerpt": "| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |",
+              "section": "虚构服务 Demo API v1：最小排错资料",
+              "table_header": {
+                "line": 8,
+                "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+              },
+              "doc_id": "demo-errors-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-api-v1.md",
+              "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+              "citation": "demo-errors-v1@d849e3e33fcd:L10-L10",
+              "score": 3,
+              "bm25": -2.080753514526309,
+              "matched_terms": [
+                "429"
+              ]
+            },
+            {
+              "line_start": 11,
+              "line_end": 11,
+              "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+              "section": "虚构服务 Demo API v1：最小排错资料",
+              "table_header": {
+                "line": 8,
+                "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+              },
+              "doc_id": "demo-errors-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-api-v1.md",
+              "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+              "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+              "score": 3,
+              "bm25": -2.080753514526309,
+              "matched_terms": [
+                "429"
+              ]
+            },
+            {
+              "line_start": 17,
+              "line_end": 17,
+              "excerpt": "请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。",
+              "section": "频率与配额",
+              "table_header": null,
+              "doc_id": "demo-support-guide-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-support-guide-v1.md",
+              "document_sha256": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf",
+              "citation": "demo-support-guide-v1@7c553393563d:L17-L17",
+              "score": 3,
+              "bm25": -1.3085549008162207,
+              "matched_terms": [
+                "429"
+              ]
+            }
+          ],
+          "content_trust": "untrusted_document",
+          "status": "ok",
+          "query_expansions": [],
+          "query_terms": [
+            "429"
+          ],
+          "source_manifest": {
+            "demo-api-v1.md": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "demo-account-state-v1.md": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "demo-diagnostics-v1.md": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+            "demo-support-guide-v1.md": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf"
+          }
+        },
+        "status": "completed",
+        "outcome": "docs",
+        "reason": "document_answer",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L10-L10",
+          "demo-errors-v1@d849e3e33fcd:L11-L11"
+        ],
+        "model_called": false,
+        "answer": "文档回答（虚构服务原文）：\n\nHTTP 状态：429；服务错误码：`RATE_LIMIT_EXCEEDED`；本虚构服务中的含义：请求触发频率限制；建议进一步核查：当前频率额度、请求窗口、`retry_after_seconds`\n依据：demo-errors-v1@d849e3e33fcd:L10-L10\n\nHTTP 状态：429；服务错误码：`MONTHLY_QUOTA_EXHAUSTED`；本虚构服务中的含义：月度用量配额耗尽；建议进一步核查：当前月度配额、已用量及重置时间\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\n\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。",
+        "rag_check": {
+          "passed": true,
+          "scope": "selected_sources_only_not_general_semantics"
+        },
+        "selected_evidence": [
+          {
+            "line_start": 10,
+            "line_end": 10,
+            "excerpt": "| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |",
+            "section": "虚构服务 Demo API v1：最小排错资料",
+            "table_header": {
+              "line": 8,
+              "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+            },
+            "doc_id": "demo-errors-v1",
+            "service_version": "demo-api-v1",
+            "source": "docs/demo-api-v1.md",
+            "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "citation": "demo-errors-v1@d849e3e33fcd:L10-L10",
+            "score": 3,
+            "bm25": -2.080753514526309,
+            "matched_terms": [
+              "429"
+            ]
+          },
+          {
+            "line_start": 11,
+            "line_end": 11,
+            "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+            "section": "虚构服务 Demo API v1：最小排错资料",
+            "table_header": {
+              "line": 8,
+              "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+            },
+            "doc_id": "demo-errors-v1",
+            "service_version": "demo-api-v1",
+            "source": "docs/demo-api-v1.md",
+            "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+            "score": 3,
+            "bm25": -2.080753514526309,
+            "matched_terms": [
+              "429"
+            ]
+          }
+        ],
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0,
+          "elapsed_ms": 3.367
+        }
+      }
+    },
+    {
+      "question": "这个服务支持火星基地配送吗",
+      "result": {
+        "simulation": true,
+        "execution_mode": "extractive_offline",
+        "rag_version": "extractive-rag-v2.1",
+        "retrieval": {
+          "simulation": true,
+          "index_version": "fts-keyword-v3",
+          "matches": [],
+          "content_trust": "untrusted_document",
+          "status": "not_found",
+          "query_expansions": [],
+          "query_terms": [
+            "地配",
+            "基地",
+            "持火",
+            "星基",
+            "火星",
+            "送吗",
+            "配送"
+          ],
+          "source_manifest": {
+            "demo-api-v1.md": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "demo-account-state-v1.md": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "demo-diagnostics-v1.md": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+            "demo-support-guide-v1.md": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf"
+          }
+        },
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "no_document_evidence",
+        "citations": [],
+        "model_called": false,
+        "answer": "目前没有足够的文档依据；请补充具体错误码或核对服务版本。",
+        "rag_check": {
+          "passed": false,
+          "scope": "selected_sources_only_not_general_semantics"
+        },
+        "selected_evidence": [],
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0,
+          "elapsed_ms": 2.978
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+data/*.sqlite3
+data/*.sqlite3-*
+logs/
+
+# Local coaching notes, release preparation, and machine-specific state.
+/.local/
+/AGENTS.md
+/PROGRESS.md
+/START_HERE.md
+/docs/project-walkthrough.md
+/.codex/
+/.agents/
+data/*.db
+data/*.db-*
+*.pem
+*.key

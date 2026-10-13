@@ -1,0 +1,291 @@
+{
+  "created_at": "2026-10-06T09:22:01.810157+00:00",
+  "simulation": true,
+  "execution_mode": "live",
+  "split": "development",
+  "dataset_version": "stop-demo-v1",
+  "case_count": 1,
+  "expected_behavior_count": 1,
+  "model_api_calls": 2,
+  "human_review": "pending",
+  "cost": null,
+  "reproducibility": {
+    "stop_contract": "grounded-stop-v1",
+    "code_sha256": "8c920498e1ea060167bd6db91a97d690018cf856c620c0790aca697ddf0ea06e",
+    "adapter_version": "deepseek-chat-v4",
+    "sdk_version": "3.24.0",
+    "prompt_sha256": "892af63abe1913179be80ecc5038b7976b7bf685a28ea14246c1ebee58dc8573",
+    "format_recovery_version": "final-format-v1",
+    "repair_prompt_sha256": "67be979e4419515851a54cf2c92b3ae435f61c86c1fb0d8c2d54638bf947e491"
+  },
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab stop-demo --case missing-account --live",
+  "limitations": [
+    "构造开发场景；手写脚本与真实模型分别标记，不代表测试集成功率。",
+    "只检查现有有限停止理由；没有联系人工、创建工单或续接任务。"
+  ],
+  "cases": [
+    {
+      "id": "missing-account",
+      "title": "请求查到了，账号快照没查到",
+      "setup": "missing_snapshot",
+      "request_id": "req_demo_018",
+      "prepared_fixture_sha256": "23bedbacb6fe1b209b57c6fa1807ee95ca441fa4b10e231c790fad34292eb5b3",
+      "behavior_as_expected": true,
+      "result": {
+        "simulation": true,
+        "execution_mode": "live",
+        "model_called": true,
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "loop_version": "tool-loop-v4.1",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "需人工核实：缺少该次请求对应的账号快照。\n已查证（模拟历史资料及本次查询状态）：\n- [E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。\n- [E2] 账号快照已查询，但本次没有找到可用记录。\n仍缺少或需核实：\n- 账号快照：已查但未找到；不能把缺失值填成 0。\n- 文档检索：尚未针对当前请求取得查询结果。\n如何补证据：\n- 请由有权限的服务维护者补充同一请求、同一时刻和服务版本的账号用量记录。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [],
+        "usage": {
+          "decision_turns": 3,
+          "tool_calls": 2,
+          "model_api_calls": 2,
+          "model_responses_received": 2,
+          "token_usage": {
+            "input_tokens": 3117,
+            "output_tokens": 97,
+            "total_tokens": 3214
+          },
+          "usage_complete": true,
+          "format_recovery": {
+            "version": "final-format-v1",
+            "status": "not_needed",
+            "correction_requests": 0,
+            "diagnostics": [],
+            "stop_reason": null
+          },
+          "model_limits": {
+            "max_api_calls": 4,
+            "max_output_tokens": 768,
+            "max_input_bytes": 24000,
+            "request_timeout_seconds": 25.0,
+            "total_seconds": 110.0,
+            "sdk_automatic_retries": 0,
+            "max_format_corrections": 1
+          },
+          "elapsed_ms": 5384.703
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T09:21:56.424025+00:00",
+            "execution_mode": "live",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_live"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T09:21:59.212660+00:00",
+            "execution_mode": "live",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 2788.245,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1431,
+              "output_tokens": 77,
+              "total_tokens": 1508
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T09:21:59.335912+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_SMvdlKmU9b41h1V1vnFO0610",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 123.445
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T09:21:59.335912+00:00",
+            "execution_mode": "live",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.072,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1431,
+              "output_tokens": 77,
+              "total_tokens": 1508
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T09:21:59.458631+00:00",
+            "execution_mode": "live",
+            "call_id": "call_01_A5bEQEEYjYIaFspihNmP9297",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "not_found",
+              "dataset_version": "account-states-v1"
+            },
+            "error": "not_found",
+            "elapsed_ms": 122.366
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T09:22:01.808339+00:00",
+            "execution_mode": "live",
+            "turn": 3,
+            "action": "final",
+            "elapsed_ms": 2350.263,
+            "proposed_tool": null,
+            "model_api_calls": 2,
+            "model_responses_received": 2,
+            "token_usage": {
+              "input_tokens": 3117,
+              "output_tokens": 97,
+              "total_tokens": 3214
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-06T09:22:01.808339+00:00",
+            "execution_mode": "live",
+            "contract": "grounded-stop-v1",
+            "passed": true,
+            "issues": [],
+            "proposed_reason": "account_unavailable",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T09:22:01.808339+00:00",
+            "execution_mode": "live",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v1",
+          "passed": true,
+          "issues": [],
+          "proposed_reason": "account_unavailable",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "account_unavailable",
+          "outcome": "handoff",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "ok",
+              "evidence_id": "E1"
+            },
+            {
+              "tool": "get_account_state",
+              "status": "not_found",
+              "evidence_id": "E2"
+            },
+            {
+              "tool": "search_docs",
+              "status": "not_queried",
+              "evidence_id": null
+            }
+          ],
+          "known": [
+            "[E1] 请求 req_demo_018，时间 2026-09-27T02:01:00Z，版本 demo-api-v1，返回 429 / MONTHLY_QUOTA_EXHAUSTED；这是记录中的线索，尚不是最终根因。",
+            "[E2] 账号快照已查询，但本次没有找到可用记录。"
+          ],
+          "gaps": [
+            "账号快照：已查但未找到；不能把缺失值填成 0。",
+            "文档检索：尚未针对当前请求取得查询结果。"
+          ],
+          "next_steps": [
+            "请由有权限的服务维护者补充同一请求、同一时刻和服务版本的账号用量记录。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "consistency_issue": null
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "created_at": "2026-10-10T16:01:58.103940+00:00",
+  "version": "tool-schema-lesson-v1",
+  "simulation": true,
+  "execution_mode": "handwritten_proposals_real_local_executor",
+  "model_api_calls": 0,
+  "application_account": "acc_demo",
+  "sources_unchanged": true,
+  "passed_examples": 5,
+  "example_count": 5,
+  "account_tool_schema": {
+    "name": "get_account_state",
+    "description": "只读查询该请求发生时、当前可信账号的历史快照：用量，或认证、权限、上游事件与执行状态。不是实时状态。",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 64,
+          "pattern": "^req_[a-z0-9_]{1,60}$"
+        }
+      },
+      "required": [
+        "request_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "examples": [
+    {
+      "example": "valid",
+      "proposed_call": {
+        "name": "get_account_state",
+        "arguments": {
+          "request_id": "req_demo_018"
+        }
+      },
+      "expected_status": "ok",
+      "tool_worker_starts": 1,
+      "passed": true,
+      "result": {
+        "simulation": true,
+        "dataset_version": "account-states-v1",
+        "status": "ok",
+        "account_state": {
+          "request_id": "req_demo_018",
+          "service_version": "demo-api-v1",
+          "captured_at": "2026-09-27T02:01:00Z",
+          "rate_window_seconds": 60,
+          "rate_limit_per_window": 60,
+          "requests_in_window": 2,
+          "monthly_quota_limit": 1000,
+          "monthly_quota_used": 1000,
+          "quota_resets_at": "2026-10-01T00:00:00Z"
+        }
+      }
+    },
+    {
+      "example": "missing_argument",
+      "proposed_call": {
+        "name": "get_account_state",
+        "arguments": {}
+      },
+      "expected_status": "invalid_arguments",
+      "tool_worker_starts": 0,
+      "passed": true,
+      "result": {
+        "simulation": true,
+        "status": "invalid_arguments",
+        "message": "工具名或参数不符合应用白名单与契约。"
+      }
+    },
+    {
+      "example": "extra_account",
+      "proposed_call": {
+        "name": "get_account_state",
+        "arguments": {
+          "request_id": "req_demo_018",
+          "account_id": "acc_other"
+        }
+      },
+      "expected_status": "invalid_arguments",
+      "tool_worker_starts": 0,
+      "passed": true,
+      "result": {
+        "simulation": true,
+        "status": "invalid_arguments",
+        "message": "工具名或参数不符合应用白名单与契约。"
+      }
+    },
+    {
+      "example": "unregistered_tool",
+      "proposed_call": {
+        "name": "reset_quota",
+        "arguments": {
+          "request_id": "req_demo_018"
+        }
+      },
+      "expected_status": "unknown_tool",
+      "tool_worker_starts": 0,
+      "passed": true,
+      "result": {
+        "simulation": true,
+        "status": "unknown_tool",
+        "message": "工具名或参数不符合应用白名单与契约。"
+      }
+    },
+    {
+      "example": "valid_but_absent",
+      "proposed_call": {
+        "name": "get_account_state",
+        "arguments": {
+          "request_id": "req_missing_001"
+        }
+      },
+      "expected_status": "not_found",
+      "tool_worker_starts": 1,
+      "passed": true,
+      "result": {
+        "simulation": true,
+        "dataset_version": "account-states-v1",
+        "status": "not_found",
+        "message": "当前账号范围内未找到与该请求时间和版本匹配的账号快照。"
+      }
+    }
+  ],
+  "limitations": [
+    "Proposals are handwritten; this does not measure model tool selection.",
+    "Parameter validation passing does not mean a record exists or a diagnosis is supported.",
+    "Uses a temporary business database; default data and conversation history are unchanged."
+  ]
+}

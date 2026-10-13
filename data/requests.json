@@ -1,0 +1,33 @@
+{
+  "simulation": true,
+  "dataset_version": "requests-v1",
+  "records": [
+    {
+      "account_id": "acc_demo",
+      "request_id": "req_demo_017",
+      "service_version": "demo-api-v1",
+      "occurred_at": "2026-09-27T02:00:00Z",
+      "http_status": 429,
+      "error_code": "RATE_LIMIT_EXCEEDED",
+      "retry_after_seconds": 30
+    },
+    {
+      "account_id": "acc_demo",
+      "request_id": "req_demo_018",
+      "service_version": "demo-api-v1",
+      "occurred_at": "2026-09-27T02:01:00Z",
+      "http_status": 429,
+      "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+      "retry_after_seconds": null
+    },
+    {
+      "account_id": "acc_other",
+      "request_id": "req_other_001",
+      "service_version": "demo-api-v1",
+      "occurred_at": "2026-09-27T02:02:00Z",
+      "http_status": 403,
+      "error_code": "PERMISSION_DENIED",
+      "retry_after_seconds": null
+    }
+  ]
+}

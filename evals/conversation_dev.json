@@ -1,0 +1,31 @@
+{
+  "dataset_version": "conversation-dev-v1",
+  "simulation": true,
+  "split": "development",
+  "human_review": "pending",
+  "description": "AI 构造的 RAG 与多轮开发场景；用于发现问题和优化，不是锁定测试集。预期内容不传给决策器。",
+  "rag_cases": [
+    {"id":"two-429-rules","family":"ambiguous-status","query":"429 是什么意思","required":["RATE_LIMIT_EXCEEDED","MONTHLY_QUOTA_EXHAUSTED"]},
+    {"id":"quota-code","family":"exact-code","query":"MONTHLY_QUOTA_EXHAUSTED","required":["月度用量配额耗尽"]},
+    {"id":"quota-alias","family":"chinese-paraphrase","query":"月度额度用光了","required":["MONTHLY_QUOTA_EXHAUSTED"]},
+    {"id":"rate-alias","family":"chinese-paraphrase","query":"调用太频繁了","required":["RATE_LIMIT_EXCEEDED"]},
+    {"id":"balance-inference","family":"insufficient-evidence","query":"429 就是余额不足吗","required":["不能"]},
+    {"id":"timeout-retry","family":"retry-policy","query":"503 超时以后可以直接重试吗","required":["重试可能重复执行"]},
+    {"id":"snapshot-field","family":"field-definition","query":"captured_at 是什么","required":["不是工具查询时间"]},
+    {"id":"quota-field","family":"field-definition","query":"monthly_quota_used 是什么","required":["被拒绝的请求不增加此值"]},
+    {"id":"no-refund-policy","family":"unknown-business-policy","query":"API 支持退款吗","required":[]},
+    {"id":"no-training-guide","family":"unknown-technical-topic","query":"请说明文档里的训练参数","required":[]},
+    {"id":"no-weather","family":"outside-domain","query":"今天天气怎么样","required":[]},
+    {"id":"no-invoice-policy","family":"unknown-business-policy","query":"这个服务如何申请发票","required":[]},
+    {"id":"english-auth","family":"english-paraphrase","query":"authentication failed","required":["401"]},
+    {"id":"english-quota","family":"english-paraphrase","query":"quota exhausted","required":["MONTHLY_QUOTA_EXHAUSTED"]}
+  ],
+  "conversation_cases": [
+    {"id":"knowledge-after-diagnosis","family":"topic-switch","messages":["req_demo_018","为什么会出现 401 错误"],"expected":{"outcome":"docs","tool_calls":0,"answer_contains":"401"}},
+    {"id":"knowledge-before-id","family":"knowledge-routing","messages":["认证失败是什么意思"],"expected":{"outcome":"docs","tool_calls":0,"answer_contains":"401"}},
+    {"id":"side-question-while-paused","family":"pause-side-question","messages":["帮我排查","/docs 429 是什么意思","req_demo_018"],"expected":{"outcome":"diagnosis","cause":"monthly_quota_exhausted","intermediate_outcome":"docs"}},
+    {"id":"refer-to-doc-topic","family":"document-followup","messages":["/docs 429 是什么意思","详细解释一下"],"expected":{"outcome":"docs","tool_calls":0,"answer_contains":"429"}},
+    {"id":"current-request-followup","family":"request-reference","messages":["req_demo_018","再查一下刚才那个请求"],"expected":{"outcome":"diagnosis","cause":"monthly_quota_exhausted","tool_calls":3}},
+    {"id":"explicit-new-request","family":"request-replacement","messages":["req_demo_018","改查 req_demo_017"],"expected":{"outcome":"diagnosis","cause":"rate_limit_exceeded","tool_calls":3}}
+  ]
+}

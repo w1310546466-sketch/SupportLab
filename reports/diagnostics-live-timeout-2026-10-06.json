@@ -1,0 +1,430 @@
+{
+  "created_at": "2026-10-06T11:20:10.883676+00:00",
+  "simulation": true,
+  "split": "development",
+  "dataset_version": "diagnostic-dev-v1",
+  "case_count": 1,
+  "run_count": 1,
+  "passed_runs": 1,
+  "human_review": "pending",
+  "execution_mode": "live",
+  "model": "deepseek-flash",
+  "model_api_calls": 3,
+  "model_api_cap": 4,
+  "token_usage": {
+    "input_tokens": 6204,
+    "output_tokens": 194,
+    "total_tokens": 6398
+  },
+  "usage_complete": true,
+  "cost": null,
+  "reproducibility": {
+    "code_sha256": "a722d1af3211d408a4d7ce1578ce00c7e727b489daabbd0c9e7623aed9684345",
+    "dataset_sha256": "2e8d58f8e7d2ab7dc12095798c2d8b035c1da7445c4521ef8d3d183198457043",
+    "rule_sha256": "b13a16f7fe346f4486995f1528d2a73a01ccf73643929353d9e7a6081e074a58",
+    "contract": "grounded-diagnostics-v1",
+    "adapter_version": "deepseek-chat-v4.3",
+    "prompts": {
+      "workflow": "e6a5a8f1914481630d6ff4b3663342b41eab2d4917613b47aac0af42d523e66d",
+      "agent": "d51b63cb072391d39726a680f2107e95cd21eb5a97b0f2e544dfe58370129268"
+    }
+  },
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab eval-diagnostics --case timeout --live",
+  "limitations": [
+    "构造开发案例已参与实现与调优，不是独立保留测试。",
+    "离线回复由规则构造，只验证执行、约束与报告；不证明真实模型质量。",
+    "实际模型验证每次仅一个案例一次运行；缺少广泛评估、重复稳定性与独立人工复核。"
+  ],
+  "rows": [
+    {
+      "id": "timeout",
+      "family": "execution_uncertainty",
+      "configuration": "agent",
+      "source_sha256": "6f35cb0f543f83b9b65c1dcd67f3ed1b9d9ecd02716e0854a0a5142187fa1ad3",
+      "grade": {
+        "passed": true,
+        "checks": {
+          "outcome": true,
+          "structured_final": true,
+          "tool_budget": true,
+          "api_budget": true,
+          "stop_check": true,
+          "stop_reason": true,
+          "documented_uncertainty": true,
+          "no_retry_promise": true,
+          "sources_unchanged": true
+        }
+      },
+      "result": {
+        "simulation": true,
+        "execution_mode": "live",
+        "model_called": true,
+        "control_mode": "dynamic_agent",
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "loop_version": "tool-loop-v4.3",
+        "status": "handoff",
+        "outcome": "handoff",
+        "reason": "final_reply",
+        "answer": "需人工核实：超时后的执行结果未知，需人工核实。\n已查证（模拟历史资料及本次查询状态）：\n- [E1] 请求 req_timeout_unknown，时间 2026-09-27T03:04:00Z，版本 demo-api-v1，返回 504 / UPSTREAM_TIMEOUT_UNKNOWN；这是记录中的线索，尚不是最终根因。\n- [E2] 已取得同请求诊断快照；时间 2026-09-27T03:04:00Z，版本 demo-api-v1；取得快照本身不证明结论成立。\n- [E3] 文档检索返回 1 个片段；检索命中本身不证明诊断成立。\n- 执行状态：unknown（未知）；幂等支持记录：未知。规则依据：demo-diagnostics-v1@b13a16f7fe34:L15-L15。\n仍缺少或需核实：\n- 还不知道这次超时请求最终是否执行，不能用超时记录推断未执行。\n如何补证据：\n- 请维护者核实该请求是否已执行、幂等约定及重复操作风险；不自动重试，不将未知当作未执行。\n本次仅输出说明，未联系人工或创建工单。补充信息后需重新运行；历史资料不能证明当前账号状态。",
+        "citations": [
+          "demo-diagnostics-v1@b13a16f7fe34:L15-L15"
+        ],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 3,
+          "model_responses_received": 3,
+          "token_usage": {
+            "input_tokens": 6204,
+            "output_tokens": 194,
+            "total_tokens": 6398
+          },
+          "usage_complete": true,
+          "format_recovery": {
+            "version": "final-format-v1",
+            "status": "not_needed",
+            "correction_requests": 0,
+            "diagnostics": [],
+            "stop_reason": null
+          },
+          "model_limits": {
+            "max_api_calls": 4,
+            "max_output_tokens": 768,
+            "max_input_bytes": 24000,
+            "request_timeout_seconds": 25.0,
+            "total_seconds": 110.0,
+            "sdk_automatic_retries": 0,
+            "max_format_corrections": 1
+          },
+          "elapsed_ms": 7516.271
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T11:20:03.364410+00:00",
+            "execution_mode": "live",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_live"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:05.862743+00:00",
+            "execution_mode": "live",
+            "turn": 1,
+            "action": "tool_call",
+            "decision_owner": "model",
+            "elapsed_ms": 2498.42,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1709,
+              "output_tokens": 90,
+              "total_tokens": 1799
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T11:20:05.990506+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_6VzXxuYc3QVg9oXCei8k6726",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_timeout_unknown"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "UPSTREAM_TIMEOUT_UNKNOWN"
+            },
+            "error": null,
+            "elapsed_ms": 128.388
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:05.990506+00:00",
+            "execution_mode": "live",
+            "turn": 2,
+            "action": "tool_call",
+            "decision_owner": "model",
+            "elapsed_ms": 0.081,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1709,
+              "output_tokens": 90,
+              "total_tokens": 1799
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T11:20:06.121511+00:00",
+            "execution_mode": "live",
+            "call_id": "call_01_0CIx58xo8yMZOs0F5fxo6485",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_timeout_unknown"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "diagnostic-snapshots-v1",
+              "captured_at": "2026-09-27T03:04:00Z",
+              "diagnostic_fields": [
+                "execution_state",
+                "idempotency_supported"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 130.911
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:08.597942+00:00",
+            "execution_mode": "live",
+            "turn": 3,
+            "action": "tool_call",
+            "decision_owner": "model",
+            "elapsed_ms": 2476.045,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 2,
+            "model_responses_received": 2,
+            "token_usage": {
+              "input_tokens": 3734,
+              "output_tokens": 173,
+              "total_tokens": 3907
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T11:20:08.729585+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_KV88xssXSoVAFg90gDFs3025",
+            "evidence_id": "E3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 24,
+              "service_version": "demo-api-v1",
+              "top_k": 3
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-diagnostics-v1@b13a16f7fe34:L15-L15"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 131.228
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T11:20:10.880339+00:00",
+            "execution_mode": "live",
+            "turn": 4,
+            "action": "final",
+            "decision_owner": "model",
+            "elapsed_ms": 2150.706,
+            "proposed_tool": null,
+            "model_api_calls": 3,
+            "model_responses_received": 3,
+            "token_usage": {
+              "input_tokens": 6204,
+              "output_tokens": 194,
+              "total_tokens": 6398
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "stop_check",
+            "timestamp": "2026-10-06T11:20:10.880339+00:00",
+            "execution_mode": "live",
+            "contract": "grounded-stop-v2",
+            "passed": true,
+            "issues": [],
+            "proposed_reason": "execution_unknown",
+            "human_review": "pending"
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T11:20:10.880339+00:00",
+            "execution_mode": "live",
+            "previous": "running",
+            "current": "handoff",
+            "reason": "final_reply"
+          }
+        ],
+        "stop_check": {
+          "contract": "grounded-stop-v2",
+          "passed": true,
+          "issues": [],
+          "proposed_reason": "execution_unknown",
+          "human_review": "pending"
+        },
+        "structured_stop": {
+          "scope": "historical_simulation",
+          "reason": "execution_unknown",
+          "outcome": "handoff",
+          "observations": [
+            {
+              "tool": "get_request_record",
+              "status": "ok",
+              "evidence_id": "E1"
+            },
+            {
+              "tool": "get_account_state",
+              "status": "ok",
+              "evidence_id": "E2"
+            },
+            {
+              "tool": "search_docs",
+              "status": "ok",
+              "evidence_id": "E3"
+            }
+          ],
+          "known": [
+            "[E1] 请求 req_timeout_unknown，时间 2026-09-27T03:04:00Z，版本 demo-api-v1，返回 504 / UPSTREAM_TIMEOUT_UNKNOWN；这是记录中的线索，尚不是最终根因。",
+            "[E2] 已取得同请求诊断快照；时间 2026-09-27T03:04:00Z，版本 demo-api-v1；取得快照本身不证明结论成立。",
+            "[E3] 文档检索返回 1 个片段；检索命中本身不证明诊断成立。",
+            "执行状态：unknown（未知）；幂等支持记录：未知。规则依据：demo-diagnostics-v1@b13a16f7fe34:L15-L15。"
+          ],
+          "gaps": [
+            "还不知道这次超时请求最终是否执行，不能用超时记录推断未执行。"
+          ],
+          "next_steps": [
+            "请维护者核实该请求是否已执行、幂等约定及重复操作风险；不自动重试，不将未知当作未执行。"
+          ],
+          "diagnosis_confirmed": false,
+          "ticket_created": false,
+          "human_contacted": false,
+          "uncertainty_evidence": {
+            "scope": "historical_simulation",
+            "facts": {
+              "request": {
+                "evidence_id": "E1",
+                "values": {
+                  "request_id": "req_timeout_unknown",
+                  "service_version": "demo-api-v1",
+                  "occurred_at": "2026-09-27T03:04:00Z",
+                  "http_status": 504,
+                  "error_code": "UPSTREAM_TIMEOUT_UNKNOWN",
+                  "retry_after_seconds": null
+                }
+              },
+              "account": {
+                "evidence_id": "E2",
+                "values": {
+                  "request_id": "req_timeout_unknown",
+                  "service_version": "demo-api-v1",
+                  "captured_at": "2026-09-27T03:04:00Z",
+                  "diagnostic_facts": {
+                    "execution_state": "unknown",
+                    "idempotency_supported": null
+                  }
+                }
+              }
+            },
+            "diagnosis": {
+              "cause": "timeout_execution_unknown",
+              "label": "超时后的执行结果未知",
+              "rule_citation": "demo-diagnostics-v1@b13a16f7fe34:L15-L15"
+            },
+            "evidence_summary": "执行状态：unknown（未知）；幂等支持记录：未知。",
+            "follow_up": [
+              {
+                "code": "check_current_status",
+                "status": "needs_verification",
+                "text": "若要判断现在能否继续请求，需另行取得当前状态；现有工具只提供历史快照。"
+              },
+              {
+                "code": "verify_with_maintainer",
+                "status": "needs_verification",
+                "text": "请维护者先核实该请求是否执行、是否有重复操作风险及幂等约定；不自动重试。"
+              }
+            ]
+          },
+          "consistency_issue": null
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": "stability-seal-v1",
+  "sealed_at": "2026-10-06T12:34:38.6476098+00:00",
+  "files": {
+    "evals/stability.py": "7f55c2cec57e84eb5c3bae56f0c3dacb236aa536b259aac0e2899073759cf7e6",
+    "evals/stability_cases_v1.json": "e687f4b2ccbfc4d158e410f6b0ddbd9a923fce6c055677db62fdb865fcbf56cd",
+    "tests/test_stability.py": "be0900c6200164c011e7a1caee19eb306c767a7bd7ee843a871420eed35388ff"
+  },
+  "note": "Development repetition runner, pinned before network execution; application candidate unchanged."
+}

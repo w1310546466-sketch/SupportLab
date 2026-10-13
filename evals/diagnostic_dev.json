@@ -1,0 +1,29 @@
+{
+  "simulation": true,
+  "dataset_version": "diagnostic-dev-v1",
+  "split": "development",
+  "human_review": "pending",
+  "truth_source": "AI-constructed fictional rules; all cases may be used for tuning; not held-out",
+  "cases": [
+    {"id":"revoked","family":"revoked_credential","request_id":"req_auth_revoked","setup":"baseline","outcome":"diagnosis","cause":"credential_revoked"},
+    {"id":"expired","family":"expired_credential","request_id":"req_auth_expired","setup":"baseline","outcome":"diagnosis","cause":"token_expired"},
+    {"id":"permission","family":"scope_authorization","request_id":"req_permission_missing","setup":"baseline","outcome":"diagnosis","cause":"scope_missing"},
+    {"id":"incident","family":"incident_association","request_id":"req_upstream_incident","setup":"baseline","outcome":"diagnosis","cause":"upstream_incident_confirmed"},
+    {"id":"timeout","family":"execution_uncertainty","request_id":"req_timeout_unknown","setup":"baseline","outcome":"handoff","reason":"execution_unknown"},
+    {"id":"snapshot-missing","family":"snapshot_missing","request_id":"req_auth_revoked","setup":"missing","outcome":"handoff","reason":"account_unavailable"},
+    {"id":"snapshot-stale","family":"snapshot_alignment","request_id":"req_auth_expired","setup":"stale","outcome":"handoff","reason":"account_unavailable"},
+    {"id":"snapshot-version","family":"snapshot_alignment","request_id":"req_permission_missing","setup":"version","outcome":"handoff","reason":"account_unavailable"},
+    {"id":"revoked-active","family":"revoked_credential","request_id":"req_auth_revoked","setup":"facts","changes":{"credential_status":"active"},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"expired-future","family":"expired_credential","request_id":"req_auth_expired","setup":"facts","changes":{"credential_expires_at":"2026-09-28T00:00:00Z"},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"permission-granted","family":"scope_authorization","request_id":"req_permission_missing","setup":"facts","changes":{"granted_scopes":["inference:write"]},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"permission-inactive","family":"scope_authorization","request_id":"req_permission_missing","setup":"facts","changes":{"credential_status":"revoked"},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"incident-other-service","family":"incident_association","request_id":"req_upstream_incident","setup":"facts","changes":{"incident_service":"inference-west"},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"incident-ended","family":"incident_association","request_id":"req_upstream_incident","setup":"facts","changes":{"incident_ended_at":"2026-09-27T03:03:00Z"},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"incident-no-id","family":"incident_association","request_id":"req_upstream_incident","setup":"facts","changes":{"incident_id":""},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"timeout-executed","family":"execution_uncertainty","request_id":"req_timeout_unknown","setup":"facts","changes":{"execution_state":"executed"},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"timeout-invalid-flag","family":"execution_uncertainty","request_id":"req_timeout_unknown","setup":"facts","changes":{"idempotency_supported":1},"outcome":"handoff","reason":"evidence_conflict"},
+    {"id":"rule-missing","family":"source_availability","request_id":"req_auth_revoked","setup":"docs_missing","outcome":"handoff","reason":"tool_failure"},
+    {"id":"rule-changed","family":"source_integrity","request_id":"req_auth_revoked","setup":"docs_changed","outcome":"handoff","reason":"documents_unavailable"},
+    {"id":"foreign-request","family":"tenant_scope","request_id":"req_permission_missing","setup":"foreign","outcome":"clarify","reason":"request_unavailable"}
+  ]
+}

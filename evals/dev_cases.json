@@ -1,0 +1,129 @@
+{
+  "dataset_version": "agent-dev-v1",
+  "split": "development",
+  "simulation": true,
+  "provenance": "AI 构造；依据本地规则与既有失败边界整理；用户尚未独立核验真值。",
+  "human_review_status": "pending",
+  "cases": [
+    {
+      "id": "rate-ok", "family": "rate-diagnosis", "title": "频率超限且配额未耗尽",
+      "request_id": "req_demo_017", "setup": "baseline",
+      "expected": {"outcome": "diagnosis", "tool_statuses": ["ok", "ok", "ok"], "cause": "频率限制", "forbidden_cause": "月度配额耗尽", "error_code": "RATE_LIMIT_EXCEEDED", "evidence": {"requests_in_window": 61, "rate_limit_per_window": 60, "monthly_quota_used": 999, "monthly_quota_limit": 1000}, "rule_line": 10},
+      "rationale": "017 的错误码、61/60 的窗口计数和规则第 10 行一致；月度用量仍为 999/1000。"
+    },
+    {
+      "id": "quota-ok", "family": "quota-diagnosis", "title": "月度配额耗尽且频率未超限",
+      "request_id": "req_demo_018", "setup": "baseline",
+      "expected": {"outcome": "diagnosis", "tool_statuses": ["ok", "ok", "ok"], "cause": "月度配额耗尽", "forbidden_cause": "频率限制", "error_code": "MONTHLY_QUOTA_EXHAUSTED", "evidence": {"requests_in_window": 2, "rate_limit_per_window": 60, "monthly_quota_used": 1000, "monthly_quota_limit": 1000}, "rule_line": 11},
+      "rationale": "018 的错误码、1000/1000 月度用量和规则第 11 行一致，窗口只有 2/60。"
+    },
+    {
+      "id": "missing-id", "family": "input-clarification", "title": "未提供请求编号",
+      "request_id": null, "setup": "baseline",
+      "expected": {"outcome": "clarify", "tool_statuses": [], "answer_contains": "请求编号"},
+      "rationale": "无法确定待查请求，应先追问，不执行无目标查询。"
+    },
+    {
+      "id": "invalid-id", "family": "input-clarification", "title": "编号格式无效",
+      "request_id": "INVALID", "setup": "baseline",
+      "expected": {"outcome": "clarify", "tool_statuses": ["invalid_arguments"], "answer_contains": "核对请求编号"},
+      "rationale": "工具契约拒绝无效编号，要求用户核对；不能凭空纠正为任意有效编号。"
+    },
+    {
+      "id": "unknown-id", "family": "scope-lookup", "title": "当前范围查不到请求",
+      "request_id": "req_missing_001", "setup": "baseline",
+      "expected": {"outcome": "clarify", "tool_statuses": ["not_found"], "answer_contains": "核对请求编号"},
+      "rationale": "没有可用请求记录，应追问；查不到不等于没有故障。"
+    },
+    {
+      "id": "other-account", "family": "scope-lookup", "title": "编号属于其他模拟账号",
+      "request_id": "req_other_001", "setup": "baseline",
+      "expected": {"outcome": "clarify", "tool_statuses": ["not_found"], "answer_contains": "核对请求编号"},
+      "rationale": "可信范围是 acc_demo，行为应与未知编号相同，不披露其他账号是否有记录。"
+    },
+    {
+      "id": "missing-snapshot", "family": "snapshot-evidence", "title": "请求存在但账号快照缺失",
+      "request_id": "req_demo_018", "setup": "missing_snapshot",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "not_found"], "answer_contains": "快照"},
+      "rationale": "只知道错误码，缺少项目策略要求的对应账号证据，不能完成诊断。"
+    },
+    {
+      "id": "stale-snapshot", "family": "snapshot-evidence", "title": "快照来自其他时刻",
+      "request_id": "req_demo_018", "setup": "stale_snapshot",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "not_found"], "answer_contains": "快照"},
+      "rationale": "旧时刻数字不能解释本次请求，工具应拒绝返回不匹配快照。"
+    },
+    {
+      "id": "snapshot-version", "family": "snapshot-evidence", "title": "快照服务版本不匹配",
+      "request_id": "req_demo_018", "setup": "snapshot_version",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "not_found"], "answer_contains": "快照"},
+      "rationale": "同一编号也必须核对快照与请求的服务版本。"
+    },
+    {
+      "id": "quota-conflict", "family": "conflicting-evidence", "title": "配额错误码与尚有余量的快照冲突",
+      "request_id": "req_demo_018", "setup": "quota_conflict",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "ok", "ok"], "answer_contains": "一致证据"},
+      "rationale": "构造将已用量降为 999；错误码和事实冲突，应转人工核对而非挑一边相信。"
+    },
+    {
+      "id": "rate-conflict", "family": "conflicting-evidence", "title": "频率错误码与未超限快照冲突",
+      "request_id": "req_demo_017", "setup": "rate_conflict",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "ok", "ok"], "answer_contains": "一致证据"},
+      "rationale": "构造将窗口请求数降为 2；当前规则无法解释错误码与数字的差异。"
+    },
+    {
+      "id": "both-exceeded", "family": "conflicting-evidence", "title": "频率和配额同时触及限制",
+      "request_id": "req_demo_018", "setup": "both_exceeded",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "ok", "ok"], "answer_contains": "一致证据"},
+      "rationale": "当前资料未规定双重限制时的错误优先级；本阶段采用保守转人工策略，不断言唯一根因。"
+    },
+    {
+      "id": "unsupported-503", "family": "unsupported-error", "title": "503 不在当前模拟决策覆盖内",
+      "request_id": "req_demo_018", "setup": "unsupported_503",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok"], "answer_contains": "其他错误"},
+      "rationale": "当前尚无 503 诊断规则，本场景只验证范围外正确终止，不宣称已支持 5xx 诊断。"
+    },
+    {
+      "id": "unsupported-401", "family": "unsupported-error", "title": "401 不在当前模拟决策覆盖内",
+      "request_id": "req_demo_018", "setup": "unsupported_401",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok"], "answer_contains": "其他错误"},
+      "rationale": "没有权限与认证事实可用，本场景不证明已支持认证故障诊断。"
+    },
+    {
+      "id": "docs-version", "family": "document-evidence", "title": "业务记录使用文档未覆盖的版本",
+      "request_id": "req_demo_018", "setup": "docs_version",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "ok", "not_found"], "answer_contains": "文档"},
+      "rationale": "请求与快照都改为 demo-api-v2，不能自动套用 v1 文档。"
+    },
+    {
+      "id": "docs-missing", "family": "document-evidence", "title": "登记的文档文件缺失",
+      "request_id": "req_demo_018", "setup": "docs_missing",
+      "expected": {"outcome": "handoff", "tool_statuses": ["ok", "ok", "storage_error"], "answer_contains": "文档"},
+      "rationale": "工具失败不是有效规则证据；不可用记忆补成文档引用。"
+    },
+    {
+      "id": "database-missing", "family": "tool-failure", "title": "模拟业务数据库不存在",
+      "request_id": "req_demo_018", "setup": "database_missing",
+      "expected": {"outcome": "handoff", "tool_statuses": ["storage_error"], "answer_contains": "工具错误"},
+      "rationale": "请求工具失败应明确停止；查询过程不能创建空数据库伪装正常状态。"
+    },
+    {
+      "id": "budget-two", "family": "execution-budget", "title": "工具预算只够查询两份证据",
+      "request_id": "req_demo_018", "setup": "baseline", "limits": {"max_tool_calls": 2},
+      "expected": {"outcome": "handoff", "reason": "tool_budget_exhausted", "tool_statuses": ["ok", "ok"], "answer_contains": "预算"},
+      "rationale": "预算 2 用完后不执行第三个检索工具，缺少文档证据时不生成诊断。"
+    },
+    {
+      "id": "budget-zero", "family": "execution-budget", "title": "没有可执行工具的预算",
+      "request_id": "req_demo_018", "setup": "baseline", "limits": {"max_tool_calls": 0},
+      "expected": {"outcome": "handoff", "reason": "tool_budget_exhausted", "tool_statuses": [], "answer_contains": "预算"},
+      "rationale": "编号已知也不能绕过应用预算，零调用后终止。"
+    },
+    {
+      "id": "turn-one", "family": "execution-budget", "title": "决策轮次只允许一轮",
+      "request_id": "req_demo_018", "setup": "baseline", "limits": {"max_turns": 1},
+      "expected": {"outcome": "handoff", "reason": "turn_budget_exhausted", "tool_statuses": ["ok"], "answer_contains": "轮次"},
+      "rationale": "第一轮查询后没有下一轮决策额度，应由循环终止，不能伪装已经形成最终答复。"
+    }
+  ]
+}

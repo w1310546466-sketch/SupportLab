@@ -1,0 +1,942 @@
+{
+  "dataset_version": "composition-holdout-v2-supplement",
+  "simulation": true,
+  "split": "prospective_composition_holdout",
+  "created_at": "2026-10-06T12:14:24.840370+00:00",
+  "freeze_record": "acceptance_candidate_v2.json",
+  "human_review": "pending",
+  "independent_authorship": false,
+  "provenance": "修复 RAG 用量字段并冻结代码后另行编写；不复用 v1 八种完整轨迹模板。原语仍相同，AI 构造而非第三方盲测。",
+  "families": {
+    "retrieval_surface_availability_isolation": "只移走知识问答登记的支持指南：诊断工具的规则来源仍齐全，应能诊断；知识问答须失败；原字节还原后无需重建即可继续。区别于 v1 直接修改诊断规则并重建索引。",
+    "explicit_docs_over_embedded_request": "同一请求编号置于 /docs 控制语句内应只查文档，置于普通消息则查请求；两种入口交替，检查目标状态与工具次数。区别于 v1 不含请求编号的文档问题。",
+    "request_token_boundary_with_pending_resume": "已有诊断后输入粘连、大小写尾缀或超长编号，不能截出合法旧编号；需暂停，插入知识问题后用完整编号恢复。区别于 v1 多编号歧义与单工具参数校验。"
+  },
+  "cases": [
+    {
+      "id": "retrieval_surface_availability_isolation-01",
+      "family": "retrieval_surface_availability_isolation",
+      "title": "支持指南暂缺时 quota 诊断与知识入口分别处理",
+      "rationale": "只移走知识问答登记的支持指南：诊断工具的规则来源仍齐全，应能诊断；知识问答须失败；原字节还原后无需重建即可继续。区别于 v1 直接修改诊断规则并重建索引。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "quota",
+          "request_id": "req_hold_v2a1"
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "doc_remove",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2a1",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2a1",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.reason": "index_unavailable",
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "doc_restore",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "再查刚才那个请求",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2a1",
+              "result.usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "retrieval_surface_availability_isolation-02",
+      "family": "retrieval_surface_availability_isolation",
+      "title": "支持指南暂缺时 revoked 诊断与知识入口分别处理",
+      "rationale": "只移走知识问答登记的支持指南：诊断工具的规则来源仍齐全，应能诊断；知识问答须失败；原字节还原后无需重建即可继续。区别于 v1 直接修改诊断规则并重建索引。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "revoked",
+          "request_id": "req_hold_v2a2"
+        },
+        {
+          "op": "chat",
+          "text": "/docs CREDENTIAL_REVOKED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "CREDENTIAL_REVOKED"
+            ]
+          }
+        },
+        {
+          "op": "doc_remove",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2a2",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "credential_revoked",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2a2",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs CREDENTIAL_REVOKED",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.reason": "index_unavailable",
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "doc_restore",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "/docs CREDENTIAL_REVOKED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "CREDENTIAL_REVOKED"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "再查刚才那个请求",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "credential_revoked",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2a2",
+              "result.usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "retrieval_surface_availability_isolation-03",
+      "family": "retrieval_surface_availability_isolation",
+      "title": "支持指南暂缺时 permission 诊断与知识入口分别处理",
+      "rationale": "只移走知识问答登记的支持指南：诊断工具的规则来源仍齐全，应能诊断；知识问答须失败；原字节还原后无需重建即可继续。区别于 v1 直接修改诊断规则并重建索引。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "permission",
+          "request_id": "req_hold_v2a3"
+        },
+        {
+          "op": "chat",
+          "text": "/docs SCOPE_MISSING",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "SCOPE_MISSING"
+            ]
+          }
+        },
+        {
+          "op": "doc_remove",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2a3",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "scope_missing",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2a3",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs SCOPE_MISSING",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.reason": "index_unavailable",
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "doc_restore",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "/docs SCOPE_MISSING",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "SCOPE_MISSING"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "再查刚才那个请求",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "scope_missing",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2a3",
+              "result.usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "retrieval_surface_availability_isolation-04",
+      "family": "retrieval_surface_availability_isolation",
+      "title": "支持指南暂缺时 timeout 诊断与知识入口分别处理",
+      "rationale": "只移走知识问答登记的支持指南：诊断工具的规则来源仍齐全，应能诊断；知识问答须失败；原字节还原后无需重建即可继续。区别于 v1 直接修改诊断规则并重建索引。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "timeout",
+          "request_id": "req_hold_v2a4"
+        },
+        {
+          "op": "chat",
+          "text": "/docs UPSTREAM_TIMEOUT_UNKNOWN",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "UPSTREAM_TIMEOUT_UNKNOWN"
+            ]
+          }
+        },
+        {
+          "op": "doc_remove",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2a4",
+          "expect": {
+            "equals": {
+              "result.outcome": "handoff",
+              "result.structured_stop.reason": "execution_unknown",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs UPSTREAM_TIMEOUT_UNKNOWN",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.reason": "index_unavailable",
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "doc_restore",
+          "file": "demo-support-guide-v1.md"
+        },
+        {
+          "op": "chat",
+          "text": "/docs UPSTREAM_TIMEOUT_UNKNOWN",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "UPSTREAM_TIMEOUT_UNKNOWN"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "再查刚才那个请求",
+          "expect": {
+            "equals": {
+              "result.outcome": "handoff",
+              "result.structured_stop.reason": "execution_unknown",
+              "result.usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "explicit_docs_over_embedded_request-01",
+      "family": "explicit_docs_over_embedded_request",
+      "title": "含 quota 请求编号的文档指令与普通消息切换",
+      "rationale": "同一请求编号置于 /docs 控制语句内应只查文档，置于普通消息则查请求；两种入口交替，检查目标状态与工具次数。区别于 v1 不含请求编号的文档问题。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "quota",
+          "request_id": "req_hold_v2b1"
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED 的含义，示例编号 req_hold_v2b1",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "请解释这个请求：req_hold_v2b1",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2b1",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED 示例 req_hold_v2b1",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2b1",
+              "usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "explicit_docs_over_embedded_request-02",
+      "family": "explicit_docs_over_embedded_request",
+      "title": "含 revoked 请求编号的文档指令与普通消息切换",
+      "rationale": "同一请求编号置于 /docs 控制语句内应只查文档，置于普通消息则查请求；两种入口交替，检查目标状态与工具次数。区别于 v1 不含请求编号的文档问题。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "revoked",
+          "request_id": "req_hold_v2b2"
+        },
+        {
+          "op": "chat",
+          "text": "/docs CREDENTIAL_REVOKED 的含义，示例编号 req_hold_v2b2",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "CREDENTIAL_REVOKED"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "请解释这个请求：req_hold_v2b2",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "credential_revoked",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2b2",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs CREDENTIAL_REVOKED 示例 req_hold_v2b2",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "CREDENTIAL_REVOKED"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2b2",
+              "usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "explicit_docs_over_embedded_request-03",
+      "family": "explicit_docs_over_embedded_request",
+      "title": "含 permission 请求编号的文档指令与普通消息切换",
+      "rationale": "同一请求编号置于 /docs 控制语句内应只查文档，置于普通消息则查请求；两种入口交替，检查目标状态与工具次数。区别于 v1 不含请求编号的文档问题。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "permission",
+          "request_id": "req_hold_v2b3"
+        },
+        {
+          "op": "chat",
+          "text": "/docs SCOPE_MISSING 的含义，示例编号 req_hold_v2b3",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "SCOPE_MISSING"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "请解释这个请求：req_hold_v2b3",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "scope_missing",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2b3",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs SCOPE_MISSING 示例 req_hold_v2b3",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "SCOPE_MISSING"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2b3",
+              "usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "explicit_docs_over_embedded_request-04",
+      "family": "explicit_docs_over_embedded_request",
+      "title": "含 timeout 请求编号的文档指令与普通消息切换",
+      "rationale": "同一请求编号置于 /docs 控制语句内应只查文档，置于普通消息则查请求；两种入口交替，检查目标状态与工具次数。区别于 v1 不含请求编号的文档问题。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "timeout",
+          "request_id": "req_hold_v2b4"
+        },
+        {
+          "op": "chat",
+          "text": "/docs UPSTREAM_TIMEOUT_UNKNOWN 的含义，示例编号 req_hold_v2b4",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "UPSTREAM_TIMEOUT_UNKNOWN"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "请解释这个请求：req_hold_v2b4",
+          "expect": {
+            "equals": {
+              "result.outcome": "handoff",
+              "result.structured_stop.reason": "execution_unknown",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs UPSTREAM_TIMEOUT_UNKNOWN 示例 req_hold_v2b4",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "UPSTREAM_TIMEOUT_UNKNOWN"
+            ]
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2b4",
+              "usage.tool_calls": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "request_token_boundary_with_pending_resume-01",
+      "family": "request_token_boundary_with_pending_resume",
+      "title": "编号边界变体 1 不得截断取证",
+      "rationale": "已有诊断后输入粘连、大小写尾缀或超长编号，不能截出合法旧编号；需暂停，插入知识问题后用完整编号恢复。区别于 v1 多编号歧义与单工具参数校验。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "quota",
+          "request_id": "req_hold_v2c1"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c1",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c1",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "帮我排查 prefixreq_hold_v2c1",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.pending_request_id": true,
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null,
+              "status": "needs_input"
+            },
+            "absent": [
+              "summary.last_verified_cause"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c1",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c1",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2c1",
+              "summary.last_verified_cause": "monthly_quota_exhausted"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "request_token_boundary_with_pending_resume-02",
+      "family": "request_token_boundary_with_pending_resume",
+      "title": "编号边界变体 2 不得截断取证",
+      "rationale": "已有诊断后输入粘连、大小写尾缀或超长编号，不能截出合法旧编号；需暂停，插入知识问题后用完整编号恢复。区别于 v1 多编号歧义与单工具参数校验。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "quota",
+          "request_id": "req_hold_v2c2"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c2",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c2",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "帮我排查 req_hold_v2c2UPPER",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.pending_request_id": true,
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null,
+              "status": "needs_input"
+            },
+            "absent": [
+              "summary.last_verified_cause"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c2",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c2",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2c2",
+              "summary.last_verified_cause": "monthly_quota_exhausted"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "request_token_boundary_with_pending_resume-03",
+      "family": "request_token_boundary_with_pending_resume",
+      "title": "编号边界变体 3 不得截断取证",
+      "rationale": "已有诊断后输入粘连、大小写尾缀或超长编号，不能截出合法旧编号；需暂停，插入知识问题后用完整编号恢复。区别于 v1 多编号歧义与单工具参数校验。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "quota",
+          "request_id": "req_hold_v2c3"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c3",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c3",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "帮我排查 req_hold_v2c3aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.pending_request_id": true,
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null,
+              "status": "needs_input"
+            },
+            "absent": [
+              "summary.last_verified_cause"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c3",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c3",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2c3",
+              "summary.last_verified_cause": "monthly_quota_exhausted"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "request_token_boundary_with_pending_resume-04",
+      "family": "request_token_boundary_with_pending_resume",
+      "title": "编号边界变体 4 不得截断取证",
+      "rationale": "已有诊断后输入粘连、大小写尾缀或超长编号，不能截出合法旧编号；需暂停，插入知识问题后用完整编号恢复。区别于 v1 多编号歧义与单工具参数校验。",
+      "steps": [
+        {
+          "op": "seed",
+          "template": "quota",
+          "request_id": "req_hold_v2c4"
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c4",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c4",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "chat",
+          "text": "帮我排查 x_req_hold_v2c4",
+          "expect": {
+            "equals": {
+              "result.outcome": "clarify",
+              "result.pending_request_id": true,
+              "result.usage.tool_calls": 0
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": null,
+              "status": "needs_input"
+            },
+            "absent": [
+              "summary.last_verified_cause"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "/docs MONTHLY_QUOTA_EXHAUSTED",
+          "expect": {
+            "equals": {
+              "result.outcome": "docs",
+              "result.usage.tool_calls": 0
+            },
+            "evidence_contains": [
+              "MONTHLY_QUOTA_EXHAUSTED"
+            ]
+          }
+        },
+        {
+          "op": "chat",
+          "text": "req_hold_v2c4",
+          "expect": {
+            "equals": {
+              "result.outcome": "diagnosis",
+              "result.structured_answer.diagnosis.cause": "monthly_quota_exhausted",
+              "result.structured_answer.facts.request.values.request_id": "req_hold_v2c4",
+              "result.usage.tool_calls": 3
+            }
+          }
+        },
+        {
+          "op": "state",
+          "expect": {
+            "equals": {
+              "target": "req_hold_v2c4",
+              "summary.last_verified_cause": "monthly_quota_exhausted"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,745 @@
+{
+  "created_at": "2026-10-06T10:08:30.638956+00:00",
+  "simulation": true,
+  "execution_mode": "live",
+  "dataset_version": "app-demo-v1",
+  "split": "development",
+  "checks": {
+    "pause_without_model": true,
+    "resume_with_evidence": true,
+    "brief_preference_applied": true,
+    "document_answer_with_sources": true,
+    "history_survives_reopen": true,
+    "bounded_context": true,
+    "historical_reference_label": true,
+    "preferences_cross_session": true,
+    "new_session_history_is_empty": true,
+    "three_versioned_documents": true,
+    "cancel_clears_task_keeps_history": true
+  },
+  "passed_checks": 11,
+  "check_count": 11,
+  "model_api_calls": 4,
+  "model_api_call_cap": 6,
+  "elapsed_ms": 10864.376,
+  "human_review": "pending",
+  "cost": null,
+  "reproducibility": {
+    "conversation_version": "conversation-v1",
+    "memory_version": "memory-v1",
+    "rag_version": "extractive-rag-v1",
+    "index_version": "fts-keyword-v1",
+    "adapter_version": "deepseek-chat-v4.1",
+    "dependencies": {
+      "langgraph": "1.2.13",
+      "langgraph-checkpoint-sqlite": "3.1.1",
+      "openai": "3.24.0"
+    },
+    "code_sha256": "d5386234826edbc2859a41760fb168bcf7d505f348f7031df9640e2cfb96a6f8",
+    "source_sha256": "a141afdd5d71e7d9172bccad54834e009dd2270f5fa1c99d8f3c23c0f6bca359",
+    "diagnosis_prompt_sha256": "892af63abe1913179be80ecc5038b7976b7bf685a28ea14246c1ebee58dc8573",
+    "rag_prompt_sha256": "0dee27cf04cb815592f4f84025ef11fea0d085023ea76d2dded051d05b131501",
+    "repair_prompt_sha256": "6b8dc4f18714b1f5e3c94cb24a88390d0240b171da442751271f4574fed4e680"
+  },
+  "reproduce": ".\\.venv\\Scripts\\python.exe -m supportlab app-demo --live",
+  "limitations": [
+    "功能开发演示；不是保留测试集准确率，也不是固定流程与 Agent 的公平比较。",
+    "文档回答输出已检索原文，选择是否完整相关仍需人工审查。",
+    "只有两种 429 诊断；业务数据模拟；没有实际联系人工或创建工单。"
+  ],
+  "turns": [
+    {
+      "message": "以后回答简洁一些",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "application",
+        "status": "completed",
+        "outcome": "information",
+        "reason": "application_reply",
+        "answer": "已保存偏好：detail=brief，将在你的其他会话中使用；证据与权限规则不变。",
+        "citations": [],
+        "model_called": false,
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "帮我排查",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "application",
+        "status": "needs_input",
+        "outcome": "clarify",
+        "reason": "waiting_request_id",
+        "answer": "请提供一个要排查的请求编号，例如 req_demo_018。",
+        "citations": [],
+        "model_called": false,
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "req_demo_018",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "live",
+        "model_called": true,
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "loop_version": "tool-loop-v4.1",
+        "status": "completed",
+        "outcome": "diagnosis",
+        "reason": "final_reply",
+        "answer": "历史模拟请求 req_demo_018：月度配额耗尽。\n当时频率 2/60，月度用量 1000/1000。\n依据：demo-errors-v1@d849e3e33fcd:L11-L11。\n这些历史记录不能证明当前已恢复。",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L11-L11"
+        ],
+        "usage": {
+          "decision_turns": 4,
+          "tool_calls": 3,
+          "model_api_calls": 3,
+          "model_responses_received": 3,
+          "token_usage": {
+            "input_tokens": 6343,
+            "output_tokens": 237,
+            "total_tokens": 6580
+          },
+          "usage_complete": true,
+          "format_recovery": {
+            "version": "final-format-v1",
+            "status": "not_needed",
+            "correction_requests": 0,
+            "diagnostics": [],
+            "stop_reason": null
+          },
+          "model_limits": {
+            "max_api_calls": 4,
+            "max_output_tokens": 768,
+            "max_input_bytes": 24000,
+            "request_timeout_seconds": 25.0,
+            "total_seconds": 110.0,
+            "sdk_automatic_retries": 0,
+            "max_format_corrections": 1
+          },
+          "elapsed_ms": 8250.735
+        },
+        "limits": {
+          "max_tool_calls": 4,
+          "max_turns": 8,
+          "tool_timeout_seconds": 2.0
+        },
+        "trace": [
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T10:08:19.912083+00:00",
+            "execution_mode": "live",
+            "previous": "pending",
+            "current": "running",
+            "reason": "start_live"
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T10:08:22.255500+00:00",
+            "execution_mode": "live",
+            "turn": 1,
+            "action": "tool_call",
+            "elapsed_ms": 2343.611,
+            "proposed_tool": "get_request_record",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1585,
+              "output_tokens": 90,
+              "total_tokens": 1675
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T10:08:22.387208+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_cNgNkUUMSbvZRXOH8N3O9196",
+            "evidence_id": "E1",
+            "attempt": 1,
+            "tool": "get_request_record",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "requests-v1",
+              "error_code": "MONTHLY_QUOTA_EXHAUSTED"
+            },
+            "error": null,
+            "elapsed_ms": 131.548
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T10:08:22.387208+00:00",
+            "execution_mode": "live",
+            "turn": 2,
+            "action": "tool_call",
+            "elapsed_ms": 0.076,
+            "proposed_tool": "get_account_state",
+            "model_api_calls": 1,
+            "model_responses_received": 1,
+            "token_usage": {
+              "input_tokens": 1585,
+              "output_tokens": 90,
+              "total_tokens": 1675
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T10:08:22.511938+00:00",
+            "execution_mode": "live",
+            "call_id": "call_01_PdIKligHaKKNgrapiCQp3869",
+            "evidence_id": "E2",
+            "attempt": 2,
+            "tool": "get_account_state",
+            "validated_arguments": {
+              "request_id": "req_demo_018"
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "account-states-v1",
+              "captured_at": "2026-09-27T02:01:00Z",
+              "rate": [
+                2,
+                60
+              ],
+              "quota": [
+                1000,
+                1000
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 124.7
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T10:08:25.642221+00:00",
+            "execution_mode": "live",
+            "turn": 3,
+            "action": "tool_call",
+            "elapsed_ms": 3130.041,
+            "proposed_tool": "search_docs",
+            "model_api_calls": 2,
+            "model_responses_received": 2,
+            "token_usage": {
+              "input_tokens": 3534,
+              "output_tokens": 159,
+              "total_tokens": 3693
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "tool",
+            "timestamp": "2026-10-06T10:08:25.769434+00:00",
+            "execution_mode": "live",
+            "call_id": "call_00_K2afrWTsdL7fkC3fg3q73977",
+            "evidence_id": "E3",
+            "attempt": 3,
+            "tool": "search_docs",
+            "validated_arguments": {
+              "query_chars": 27,
+              "service_version": "demo-api-v1",
+              "top_k": 3
+            },
+            "result_summary": {
+              "status": "ok",
+              "dataset_version": "docs-v1",
+              "citations": [
+                "demo-errors-v1@d849e3e33fcd:L11-L11",
+                "demo-account-state-v1@c58dcdf22b91:L41-L41",
+                "demo-errors-v1@d849e3e33fcd:L10-L10"
+              ]
+            },
+            "error": null,
+            "elapsed_ms": 127.135
+          },
+          {
+            "event": "decision",
+            "timestamp": "2026-10-06T10:08:28.162471+00:00",
+            "execution_mode": "live",
+            "turn": 4,
+            "action": "final",
+            "elapsed_ms": 2393.036,
+            "proposed_tool": null,
+            "model_api_calls": 3,
+            "model_responses_received": 3,
+            "token_usage": {
+              "input_tokens": 6343,
+              "output_tokens": 237,
+              "total_tokens": 6580
+            },
+            "usage_complete": true,
+            "format_recovery": {
+              "version": "final-format-v1",
+              "status": "not_needed",
+              "correction_requests": 0,
+              "diagnostics": [],
+              "stop_reason": null
+            },
+            "model_limits": {
+              "max_api_calls": 4,
+              "max_output_tokens": 768,
+              "max_input_bytes": 24000,
+              "request_timeout_seconds": 25.0,
+              "total_seconds": 110.0,
+              "sdk_automatic_retries": 0,
+              "max_format_corrections": 1
+            }
+          },
+          {
+            "event": "answer_check",
+            "timestamp": "2026-10-06T10:08:28.162471+00:00",
+            "execution_mode": "live",
+            "contract": "grounded-429-v2",
+            "passed": true,
+            "issues": [],
+            "scope": "two_simulated_429_causes",
+            "human_review": "pending",
+            "references": {
+              "request_evidence_id": "E1",
+              "account_evidence_id": "E2"
+            },
+            "available_evidence": [
+              {
+                "id": "E1",
+                "tool": "get_request_record",
+                "status": "ok"
+              },
+              {
+                "id": "E2",
+                "tool": "get_account_state",
+                "status": "ok"
+              },
+              {
+                "id": "E3",
+                "tool": "search_docs",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "event": "state",
+            "timestamp": "2026-10-06T10:08:28.162471+00:00",
+            "execution_mode": "live",
+            "previous": "running",
+            "current": "completed",
+            "reason": "final_reply"
+          }
+        ],
+        "answer_check": {
+          "contract": "grounded-429-v2",
+          "passed": true,
+          "issues": [],
+          "scope": "two_simulated_429_causes",
+          "human_review": "pending",
+          "references": {
+            "request_evidence_id": "E1",
+            "account_evidence_id": "E2"
+          },
+          "available_evidence": [
+            {
+              "id": "E1",
+              "tool": "get_request_record",
+              "status": "ok"
+            },
+            {
+              "id": "E2",
+              "tool": "get_account_state",
+              "status": "ok"
+            },
+            {
+              "id": "E3",
+              "tool": "search_docs",
+              "status": "ok"
+            }
+          ]
+        },
+        "structured_answer": {
+          "scope": "historical_simulation",
+          "facts": {
+            "request": {
+              "evidence_id": "E1",
+              "values": {
+                "request_id": "req_demo_018",
+                "occurred_at": "2026-09-27T02:01:00Z",
+                "service_version": "demo-api-v1",
+                "http_status": 429,
+                "error_code": "MONTHLY_QUOTA_EXHAUSTED",
+                "retry_after_seconds": null
+              }
+            },
+            "account": {
+              "evidence_id": "E2",
+              "values": {
+                "rate_window_seconds": 60,
+                "rate_limit_per_window": 60,
+                "requests_in_window": 2,
+                "monthly_quota_limit": 1000,
+                "monthly_quota_used": 1000,
+                "captured_at": "2026-09-27T02:01:00Z",
+                "quota_resets_at": "2026-10-01T00:00:00Z"
+              }
+            }
+          },
+          "diagnosis": {
+            "cause": "monthly_quota_exhausted",
+            "label": "月度配额耗尽",
+            "rule_citation": "demo-errors-v1@d849e3e33fcd:L11-L11"
+          },
+          "follow_up": [
+            {
+              "code": "check_current_status",
+              "status": "needs_verification",
+              "text": "若要判断现在能否继续请求，需另行取得当前状态；现有工具只提供历史快照。"
+            },
+            {
+              "code": "verify_quota_options",
+              "status": "needs_verification",
+              "text": "现有资料未说明是否能申请额外配额，需向服务方核实可用方案及生效条件。"
+            }
+          ]
+        },
+        "context_report": {
+          "bytes": 392,
+          "max_bytes": 3600,
+          "included_turns": 1,
+          "omitted_turns": 0
+        },
+        "full_answer": "已查证事实（模拟历史记录）：请求 req_demo_018 发生于 2026-09-27T02:01:00Z，错误码为 MONTHLY_QUOTA_EXHAUSTED。同一时刻的 60 秒窗口请求数/上限为 2/60，月度已用量/上限为 1000/1000。\n诊断：该次历史请求的证据支持“月度配额耗尽”。规则依据：demo-errors-v1@d849e3e33fcd:L11-L11。\n时间范围：当时快照登记的配额重置时间为 2026-10-01T00:00:00Z；这一历史计划时间不能证明今天已经恢复。\n该次请求没有提供建议等待秒数；不能把空值解释为立即重试。\n待核实：\n- 若要判断现在能否继续请求，需另行取得当前状态；现有工具只提供历史快照。\n- 现有资料未说明是否能申请额外配额，需向服务方核实可用方案及生效条件。",
+        "presentation": {
+          "detail": "brief",
+          "layout": "paragraphs"
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "/docs 429 是什么意思",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "live",
+        "rag_version": "extractive-rag-v1",
+        "retrieval": {
+          "simulation": true,
+          "index_version": "fts-keyword-v1",
+          "matches": [
+            {
+              "line_start": 10,
+              "line_end": 10,
+              "excerpt": "| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |",
+              "section": "虚构服务 Demo API v1：最小排错资料",
+              "table_header": {
+                "line": 8,
+                "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+              },
+              "doc_id": "demo-errors-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-api-v1.md",
+              "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+              "citation": "demo-errors-v1@d849e3e33fcd:L10-L10",
+              "score": 3,
+              "bm25": -1.687998122576443,
+              "matched_terms": [
+                "429"
+              ]
+            },
+            {
+              "line_start": 11,
+              "line_end": 11,
+              "excerpt": "| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |",
+              "section": "虚构服务 Demo API v1：最小排错资料",
+              "table_header": {
+                "line": 8,
+                "text": "| HTTP 状态 | 服务错误码 | 本虚构服务中的含义 | 建议进一步核查 |"
+              },
+              "doc_id": "demo-errors-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-api-v1.md",
+              "document_sha256": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+              "citation": "demo-errors-v1@d849e3e33fcd:L11-L11",
+              "score": 3,
+              "bm25": -1.687998122576443,
+              "matched_terms": [
+                "429"
+              ]
+            },
+            {
+              "line_start": 17,
+              "line_end": 17,
+              "excerpt": "请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。",
+              "section": "频率与配额",
+              "table_header": null,
+              "doc_id": "demo-support-guide-v1",
+              "service_version": "demo-api-v1",
+              "source": "docs/demo-support-guide-v1.md",
+              "document_sha256": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf",
+              "citation": "demo-support-guide-v1@7c553393563d:L17-L17",
+              "score": 3,
+              "bm25": -1.051924470625849,
+              "matched_terms": [
+                "429"
+              ]
+            }
+          ],
+          "content_trust": "untrusted_document",
+          "status": "ok",
+          "query_expansions": [],
+          "source_manifest": {
+            "demo-api-v1.md": "d849e3e33fcd81799140558984cbe75f104129fac2cc009a7e5709805b4d90ff",
+            "demo-account-state-v1.md": "c58dcdf22b919c943d4019e282b0e131c3d3765cf280de6cd9d78288833dd5da",
+            "demo-support-guide-v1.md": "7c553393563d30574135d161898ed4b738b393c9cf738cd9cc9bf219d0e77dcf"
+          }
+        },
+        "status": "completed",
+        "outcome": "docs",
+        "reason": "document_answer",
+        "citations": [
+          "demo-errors-v1@d849e3e33fcd:L10-L10",
+          "demo-errors-v1@d849e3e33fcd:L11-L11",
+          "demo-support-guide-v1@7c553393563d:L17-L17"
+        ],
+        "model_called": true,
+        "answer": "文档回答（虚构服务原文）：\n\n| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |\n依据：demo-errors-v1@d849e3e33fcd:L10-L10\n\n| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\n\n请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。\n依据：demo-support-guide-v1@7c553393563d:L17-L17\n\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。",
+        "rag_check": {
+          "passed": true,
+          "scope": "selected_sources_only_not_general_semantics"
+        },
+        "usage": {
+          "model_api_calls": 1,
+          "model_responses_received": 1,
+          "token_usage": {
+            "input_tokens": 1084,
+            "output_tokens": 71,
+            "total_tokens": 1155
+          },
+          "usage_complete": true,
+          "format_recovery": {
+            "version": "final-format-v1",
+            "status": "not_needed",
+            "correction_requests": 0,
+            "diagnostics": [],
+            "stop_reason": null
+          },
+          "model_limits": {
+            "max_api_calls": 2,
+            "max_output_tokens": 768,
+            "max_input_bytes": 24000,
+            "request_timeout_seconds": 25.0,
+            "total_seconds": 110.0,
+            "sdk_automatic_retries": 0,
+            "max_format_corrections": 1
+          },
+          "elapsed_ms": 2344.333
+        },
+        "context_report": {
+          "bytes": 696,
+          "max_bytes": 3600,
+          "included_turns": 2,
+          "omitted_turns": 0
+        },
+        "presentation": {
+          "detail": "brief",
+          "layout": "paragraphs"
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "/history",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "application",
+        "status": "completed",
+        "outcome": "information",
+        "reason": "application_reply",
+        "answer": "你：帮我排查\n助手：请提供一个要排查的请求编号，例如 req_demo_018。\n\n你：req_demo_018\n助手：历史模拟请求 req_demo_018：月度配额耗尽。\n当时频率 2/60，月度用量 1000/1000。\n依据：demo-errors-v1@d849e3e33fcd:L11-L11。\n这些历史记录不能证明当前已恢复。\n\n你：/docs 429 是什么意思\n助手：文档回答（虚构服务原文）：\n\n| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |\n依据：demo-errors-v1@d849e3e33fcd:L10-L10\n\n| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\n\n请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。\n依据：demo-support-guide-v1@7c553393563d:L17-L17\n\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。",
+        "citations": [],
+        "model_called": false,
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "/context",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "application",
+        "status": "completed",
+        "outcome": "information",
+        "reason": "application_reply",
+        "answer": "{\"trust\": \"reference_only_not_tool_evidence\", \"preferences\": {\"detail\": \"brief\", \"layout\": \"paragraphs\"}, \"task\": {\"last_status\": \"completed\", \"last_request_id\": \"req_demo_018\", \"last_outcome\": \"docs\", \"historical_only\": true, \"last_verified_cause\": \"monthly_quota_exhausted\"}, \"recent_turns\": [{\"user\": \"帮我排查\", \"assistant\": \"请提供一个要排查的请求编号，例如 req_demo_018。\"}, {\"user\": \"req_demo_018\", \"assistant\": \"历史模拟请求 req_demo_018：月度配额耗尽。\\n当时频率 2/60，月度用量 1000/1000。\\n依据：demo-errors-v1@d849e3e33fcd:L11-L11。\\n这些历史记录不能证明当前已恢复。\"}, {\"user\": \"/docs 429 是什么意思\", \"assistant\": \"文档回答（虚构服务原文）：\\n\\n| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |\\n依据：demo-errors-v1@d849e3e33fcd:L10-L10\\n\\n| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |\\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\\n\\n请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。\\n依据：demo-support-guide-v1@7c553393563d:L17-L17\\n\\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。\"}], \"omitted_turns\": 0, \"version\": \"context-v1\"}",
+        "citations": [],
+        "model_called": false,
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0
+        },
+        "context_report": {
+          "payload": {
+            "trust": "reference_only_not_tool_evidence",
+            "preferences": {
+              "detail": "brief",
+              "layout": "paragraphs"
+            },
+            "task": {
+              "last_status": "completed",
+              "last_request_id": "req_demo_018",
+              "last_outcome": "docs",
+              "historical_only": true,
+              "last_verified_cause": "monthly_quota_exhausted"
+            },
+            "recent_turns": [
+              {
+                "user": "帮我排查",
+                "assistant": "请提供一个要排查的请求编号，例如 req_demo_018。"
+              },
+              {
+                "user": "req_demo_018",
+                "assistant": "历史模拟请求 req_demo_018：月度配额耗尽。\n当时频率 2/60，月度用量 1000/1000。\n依据：demo-errors-v1@d849e3e33fcd:L11-L11。\n这些历史记录不能证明当前已恢复。"
+              },
+              {
+                "user": "/docs 429 是什么意思",
+                "assistant": "文档回答（虚构服务原文）：\n\n| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |\n依据：demo-errors-v1@d849e3e33fcd:L10-L10\n\n| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\n\n请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。\n依据：demo-support-guide-v1@7c553393563d:L17-L17\n\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。"
+              }
+            ],
+            "omitted_turns": 0,
+            "version": "context-v1"
+          },
+          "serialized": "{\"trust\": \"reference_only_not_tool_evidence\", \"preferences\": {\"detail\": \"brief\", \"layout\": \"paragraphs\"}, \"task\": {\"last_status\": \"completed\", \"last_request_id\": \"req_demo_018\", \"last_outcome\": \"docs\", \"historical_only\": true, \"last_verified_cause\": \"monthly_quota_exhausted\"}, \"recent_turns\": [{\"user\": \"帮我排查\", \"assistant\": \"请提供一个要排查的请求编号，例如 req_demo_018。\"}, {\"user\": \"req_demo_018\", \"assistant\": \"历史模拟请求 req_demo_018：月度配额耗尽。\\n当时频率 2/60，月度用量 1000/1000。\\n依据：demo-errors-v1@d849e3e33fcd:L11-L11。\\n这些历史记录不能证明当前已恢复。\"}, {\"user\": \"/docs 429 是什么意思\", \"assistant\": \"文档回答（虚构服务原文）：\\n\\n| 429 | `RATE_LIMIT_EXCEEDED` | 请求触发频率限制 | 当前频率额度、请求窗口、`retry_after_seconds` |\\n依据：demo-errors-v1@d849e3e33fcd:L10-L10\\n\\n| 429 | `MONTHLY_QUOTA_EXHAUSTED` | 月度用量配额耗尽 | 当前月度配额、已用量及重置时间 |\\n依据：demo-errors-v1@d849e3e33fcd:L11-L11\\n\\n请求太快、短时间调用过多属于频率限制线索；月度次数用完属于月度配额线索。429 不能直接等同于余额不足。确定诊断需要把请求错误码、相同时刻的账号记录和对应版本的文档放在一起核对。\\n依据：demo-support-guide-v1@7c553393563d:L17-L17\\n\\n以上是文档规则，不能证明某个账号当前的状态；具体故障仍需查询请求与账号记录。\"}], \"omitted_turns\": 0, \"version\": \"context-v1\"}",
+          "bytes": 1548,
+          "max_bytes": 3600
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "/prefs",
+      "session_id": "second",
+      "result": {
+        "simulation": true,
+        "execution_mode": "application",
+        "status": "completed",
+        "outcome": "information",
+        "reason": "application_reply",
+        "answer": "当前明确保存的展示偏好：{\"detail\": \"brief\", \"layout\": \"paragraphs\"}",
+        "citations": [],
+        "model_called": false,
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0
+        },
+        "session_id": "second",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    },
+    {
+      "message": "/cancel",
+      "session_id": "demo",
+      "result": {
+        "simulation": true,
+        "execution_mode": "application",
+        "status": "ready",
+        "outcome": "information",
+        "reason": "application_reply",
+        "answer": "已结束当前排查状态；历史和偏好保留，可以开始新的问题。",
+        "citations": [],
+        "model_called": false,
+        "usage": {
+          "model_api_calls": 0,
+          "token_usage": null,
+          "tool_calls": 0
+        },
+        "session_id": "demo",
+        "conversation_version": "conversation-v1",
+        "session_mode": "agent"
+      }
+    }
+  ]
+}
